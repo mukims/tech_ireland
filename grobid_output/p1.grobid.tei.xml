@@ -1,0 +1,1699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Disorder information from conductance: a quantum inverse problem</title>
+				<funder ref="#_hD39cag">
+					<orgName type="full">CNPq</orgName>
+				</funder>
+				<funder ref="#_MnKbtV7">
+					<orgName type="full">FAPERJ</orgName>
+				</funder>
+				<funder ref="#_hUDgn9D">
+					<orgName type="full">ICTP-Simons Foundation Associate Scheme</orgName>
+				</funder>
+				<funder ref="#_YG6ZNjX #_GFrKJsx">
+					<orgName type="full">unknown</orgName>
+				</funder>
+				<funder ref="#_dYdKbAu">
+					<orgName type="full">FAPESP-</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-07-24">24 Jul 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName><forename type="first">S</forename><surname>Mukim</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Physics</orgName>
+								<orgName type="institution">Trinity College Dublin</orgName>
+								<address>
+									<settlement>Dublin</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">F</forename><forename type="middle">P</forename><surname>Amorim</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Instituto de Física Teórica</orgName>
+								<orgName type="institution">São Paulo State University</orgName>
+								<address>
+									<postCode>01140-070</postCode>
+									<settlement>São Paulo</settlement>
+									<country>Brazil and</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Rocha</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Instituto de Física Teórica</orgName>
+								<orgName type="institution">São Paulo State University</orgName>
+								<address>
+									<postCode>01140-070</postCode>
+									<settlement>São Paulo</settlement>
+									<country>Brazil and</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Muniz</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Instituto de Física</orgName>
+								<orgName type="institution">Universidade Federal Fluminense</orgName>
+								<address>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">C</forename><surname>Lewenkopf</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Instituto de Física</orgName>
+								<orgName type="institution">Universidade Federal Fluminense</orgName>
+								<address>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Ferreira</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Physics</orgName>
+								<orgName type="institution">Trinity College Dublin</orgName>
+								<address>
+									<settlement>Dublin</settlement>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<address>
+									<country key="IE">Ireland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="laboratory">Centre for Research on Adaptive Nanostructures and Nanodevices (CRANN) &amp; Advanced Materials and Bioengineering Research (AMBER) Centre</orgName>
+								<orgName type="institution">Trinity College Dublin</orgName>
+								<address>
+									<settlement>Dublin 2</settlement>
+									<country key="IE">Ireland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Disorder information from conductance: a quantum inverse problem</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-07-24">24 Jul 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">04DAA8E1DEBB297A67780569F62FFE34</idno>
+					<idno type="arXiv">arXiv:2007.12504v1[cond-mat.mes-hall]</idno>
+					<note type="submission">Dated: July 27, 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.8.2-SNAPSHOT" ident="GROBID" when="2026-08-27T18:44+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It is straightforward to calculate the conductance of a quantum device once all its scattering centers are fully specified. However, to do this in reverse, i.e., to find information about the composition of scatterers in a device from its conductance, is an elusive task. This is particularly more challenging in the presence of disorder. Here we propose a procedure in which valuable compositional information can be extracted from the seemingly noisy spectral conductance of a two-terminal disordered quantum device. In particular, we put forward an inversion methodology that can identify the nature and respective concentration of randomly-distributed impurities by analyzing energydependent conductance fingerprints. Results are shown for graphene nanoribbons as a case in point using both tight-binding and density functional theory simulations, indicating that this inversion technique is general, robust and can be employed to extract structural and compositional information of disordered mesoscopic devices from standard conductance measurements.</p><p>Structures whose dimensions are comparable to or smaller than the electronic mean free path display transport features not associated with the classical ohmic behaviour <ref type="bibr">[1]</ref>. These are quantum features found by solving the Schrödinger equation once the system Hamiltonian is known. Indeed, it is straightforward to describe how current flows in a quantum device by calculating its conductance once all scattering centres are specified. However, to do this in reverse, i.e., to find information about scatterers in a quantum device by simply looking at its conductance is rather challenging. This is a kind of Inverse Problem (IP) which consists of obtaining from a set of observations the causal factors that generated them in the first place. IP are intrinsic parts of numerous visualization tools <ref type="bibr">[2]</ref><ref type="bibr">[3]</ref><ref type="bibr">[4]</ref><ref type="bibr">[5]</ref> but are not as common in the quantum realm, and even less so in the presence of disorder.</p><p>Disorder makes the description of the impurity potential by inverse scattering methods quite a daunting task. Multiple scattering depends on the scatterers' locations and therefore likely to affect the electronic dynamics in seemingly unpredictable ways. To make matters worse theory shows that quantum interference in chaotic <ref type="bibr">[6]</ref> and/or diffusive systems <ref type="bibr">[7]</ref> gives rise to fluctuations whose statistical properties are universal, i.e. system independent, indicating that standard IP methods are neither practical nor useful in such situations.</p><p>Here we give a different twist to quantum IP approaches and demonstrate that, instead of detrimental, disorder may be actually beneficial to extracting information about scattering centres in a quantum device.</p><p>In particular, we focus on the energy-dependent conductance of a quantum system, hereafter referred to as the conductance spectrum, which will serve as the only input of the inversion procedure described here. This is a quantity normally obtained by standard experimental setups of a gated two-terminal device but may also be found by calculation once the underlying Hamiltonian is fully specified. Here we introduce our inversion methodology by using the latter as a proxy for the former, i.e, calculated conductance spectra representing their experimental equivalent. The advantage of using calculated input functions is that we can refer back to the Hamiltonian that generated them in the first place, making it possible to assess the success of the inversion procedure.</p><p>Let us start by defining the system to be used throughout the manuscript. It consists of two electrodes separated by a scattering region of length L and width W , as illustrated in Fig. <ref type="figure" target="#fig_3">1</ref>(a), a rather typical setup of electronic transport. The distinction between the leads and the central region is that the latter contains impurities as scattering centres <ref type="bibr">[8]</ref>. In the linear response regime, the Landauer conductance reads G = 2e 2 /h dE(-∂f /∂E)Γ(E), where f (E) is the Fermi distribution and Γ(E) is the dimensionless conductance (or transmission) given by <ref type="bibr">[9,</ref><ref type="bibr">10]</ref> </p><formula xml:id="formula_0">Γ(E) = tr G r (E)Γ R (E)G a (E)Γ L (E)<label>(1)</label></formula><p>Here</p><formula xml:id="formula_1">G r (G a = [G r ] † ) is the full retarded (advanced)</formula><p>Green function and Γ L (Γ R ) is the line width function accounting for the injection and lifetime of states in the left (right) contact. For simplicity, we consider the zerotemperature limit G = 2e 2 /h Γ(E). Thermal corrections will be shown to have little effect on our procedure. The expression for Γ in Eq. ( <ref type="formula" target="#formula_0">1</ref>) is model-independent, i.e., once the Hamiltonian is known one can find the corresponding Green function and obtain the energy dependent conductance of the system <ref type="bibr">[9]</ref>. We focus on systems with relatively simple electronic structures, namely graphene nanoribbons (GNR). Although not an essential requirement, it helps to illustrate the methodology since GNR are well described by the tight-binding model <ref type="bibr">[11,</ref><ref type="bibr">12]</ref>. In this case the nearest-neighbour hopping t L W (a)</p><formula xml:id="formula_2">0 1 2 3 0 1 2 3 Γ Ε/t (b)</formula><p>FIG. <ref type="figure" target="#fig_3">1</ref>. (a) Schematic diagram of the system under consideration. Two semi-infinite leads of width W are separated by a region of length L containing a concentration n of impurities represented by red dots. (b) Calculated conductance for a system made of a graphene nanoribbon of length L = 100 unit cells as a function of the chemical potential (in units of t). The dashed line corresponds to the conductance of the pristine system, i.e., in the absence of impurities. The solid line shows the conductance for a disordered configuration containing N = 42 substitutional impurities ( = 0.5t), which accounts for a concentration of n = 3%. and the on-site energies fully define the electronic structure of the nanoribbon. Fig. <ref type="figure" target="#fig_3">1</ref>(b) shows the energydependent conductance for an armchair-edged GNR of width W = 3a, a = 2.7Å being the graphene lattice parameter. The dashed line is the conductance spectrum Γ 0 for the pristine GNR. Results are shown for positive energies knowing that Γ 0 (E) = Γ 0 (-E).</p><p>We now introduce N substitutional impurities. It is convenient to express the impurity number also as the percentage concentration n defined as n = 100 × (N/N tot ), where N tot is the total number of sites in the central region. Both N and n will be used interchangeably. The scattering strength of the impurities is characterized by the contrast between their on-site potential relative to that of the host, chosen to be zero. The solid line of Fig. <ref type="figure" target="#fig_3">1(b)</ref> shows the conductance for the GNR with N = 42 impurities, = 0.5 t and L = 100 unit cells (n = 3%). Impurity locations were randomly selected but kept fixed in the underlying Hamiltonian that generated the conductance Γ(E) of Fig. <ref type="figure" target="#fig_3">1(b)</ref>.</p><p>Being the conductance sensitive to the locations of scattering centres, it is difficult to devise an inversion tool capable of spatially mapping all impurities from the conductance spectrum information alone. The brute-force method of comparing the input conductance Γ(E) with those of every possible disorder configuration is not viable because the number of combinations is too large for any practical situation. Machine-learning strategies are currently being attempted to overcome this combinatorial hurdle <ref type="bibr">[13]</ref><ref type="bibr">[14]</ref><ref type="bibr">[15]</ref><ref type="bibr">[16]</ref><ref type="bibr">[17]</ref><ref type="bibr">[18]</ref><ref type="bibr">[19]</ref><ref type="bibr">[20]</ref> but spatial mapping of quantum devices through inversion remains challenging.</p><p>Nevertheless, given the conductance spectrum Γ(E) of a device, one might ask whether it is possible to find the exact number of scattering centres in it. This may not reveal the position of every impurity but it is a valuable piece of information and a lot more feasible to obtain. While the brute-force approach remains impractical, we must account for as many disorder realizations as possible. We define the configurationally averaged (CA) conductance Γ by summing over M realizations with the same number N of impurities (or concentration n), i.e.,</p><formula xml:id="formula_3">Γ(E, n) = 1 M M j=1 Γ j (E) ,<label>(2)</label></formula><p>where j labels the different configurations. See SM <ref type="bibr" target="#b53">[21]</ref> for a discussion on the suitable choices for M . The deviation between an arbitrary conductance result and its CA counterpart is given by</p><formula xml:id="formula_4">∆Γ(E, n) = Γ(E) -Γ(E, n)<label>(3)</label></formula><p>We reiterate that Γ(E) acts as the input conductance spectrum of a single realization and represents the immutable conductance of the device under investigation.</p><p>The CA conductance spectrum, on the other hand, reflects the contribution of very many configurations and depends, in addition, on the impurity concentration. By treating n as a variable parameter, we can look for minimization trends in ∆Γ(E, n) that might indicate the real concentration in the device. Unfortunately, when plotted as a function of n in Fig. <ref type="figure">2</ref>(a), the deviation ∆Γ for a fixed energy E is featureless with wide error bars that result from repeating the calculation 1000 times. However, much cleaner trends are seen when ∆Γ is used in the form of a functional that measures how good a match Γ(E) and Γ(E, n) are. This quantity is the misfit function χ(n) defined as</p><formula xml:id="formula_5">χ(n) = E+ E- dE [ Γ(E) -Γ(E, n) ] 2 ,<label>(4)</label></formula><p>where E -and E + establish the energy window over which the integration takes place. from simple conductance measurements. Note that no prior knowledge of the actual number of impurities was necessary to identify the misfit-function minimum.</p><p>To demonstrate that the agreement between the minimizing concentration of χ and the actual impurity concentration is not a fortuitous coincidence, we proceed to write the CA conductance <ref type="bibr">[10]</ref> to linear order in n</p><formula xml:id="formula_6">Γ(E, n) = Γ 0 (E) -β(E) n,<label>(5)</label></formula><p>where β(E) is the derivative of Γ(E, n) with respect to n evaluated at n = 0. The misfit function χ(n) will naturally develop a minimum at n * = -B/A, where</p><formula xml:id="formula_7">A = E+ E- dEβ 2 (E) and B = E+ E- dEβ(E) Γ(E)-Γ 0 (E) .<label>(6)</label></formula><p>The vertical (black) dotted line shown on the upper part of Fig. <ref type="figure">2(b</ref>) indicates the value of n * . Note that both the dotted and dashed lines are aligned, i.e., n * coincides not only with the actual concentration n but also with the impurity concentration that minimizes χ(n). In fact, n * is an excellent approximation up to 3% impurity concentration and provides a simple yet accurate way of identifying the misfit function minimum. <ref type="bibr">[22]</ref> Besides the impurity concentration, other degrees of freedom can be added to the IP in question. Let us now consider an arbitrary sample conductance but this time assume that nothing is known about the impurity, i.e., neither its concentration n nor its on-site potential . In this case, the input Γ(E) is simply treated as the conductance of a system with an unknown number of unspecified impurities. To calculate the misfit function we must compute the CA conductance which will now depend on as well as n. A 2D contour plot of χ as a function of these two quantities is shown in Fig. <ref type="figure" target="#fig_4">3(a)</ref>. A distinctive minimum is seen which, once again, coincides with the exact values used to generate the input conductance, shown as dashed lines. Consequently, both the type and concentration of scattering centres inside a quantum device can be identified through its energydependent conductance fingerprints. Furthermore, still using two degrees of freedom, the IP can also be implemented in the case of two types of impurities with unknown concentrations. In other words, two impurities described by known on-site potentials A and B are randomly dispersed with respective concentrations n A and n B , which are unknown. Writing the CA conductance as a function of both concentrations leads to the misfit function being plotted now as a function of the same quantities in Fig. <ref type="figure" target="#fig_1">3</ref>  system. While such an increase may lead to the appearance of more minima in the misfit function, it remains a straightforward numerical task to identify them all.</p><formula xml:id="formula_8">χ -8 -6 -4 -2 0 2 0 1 2 3 Ε Γ (b) (a) (eV)</formula><p>To show that this method is indeed model-independent we have also tested it in the case of a system fully described by Density Functional Theory (DFT). In particular, DFT-based conductance calculations were performed for armchair GNR of sizes L = 100 unit cells and W = 3a containing a specific spatial distribution of N = 10 nitrogen atoms as substitutional impurities, which corresponds to n = 0.7%. See SM <ref type="bibr" target="#b53">[21]</ref> for details of the DFT calculations. The solid line in Fig. <ref type="figure" target="#fig_2">4</ref>(a) shows the conductance spectrum Γ(E) of the system obtained within DFT, which will now serve as the input conductance for the inversion procedure. Regarding the CA conductance, there are two options on how Γ(E, n) can be obtained. First option is to repeat the steps taken to generate Γ(E) of Fig. <ref type="figure" target="#fig_2">4</ref>(a) over several different disorder configurations. Bearing in mind that the impurity concentration n must be kept as a variable parameter, the averaging procedure defined in Eq. ( <ref type="formula" target="#formula_3">2</ref>) requires M different configurations for every single value of n, which indicates how computationally demanding this task might become if carried out entirely within DFT. The alternative option is to use the tight-binding (TB) model to carry out the CA calculation. In this case the TB model provides a fast averaging strategy without necessarily compromising in accuracy.</p><p>Here, we have selected the latter option and made use of DFT conductance spectra to identify suitable TB parameters that describe the nitrogen impurities in the GNR. See SM <ref type="bibr" target="#b53">[21]</ref> for details, including a brief discussion on the choices available to extract TB parameters from DFT calculations <ref type="bibr">[23]</ref><ref type="bibr" target="#b22">[24]</ref><ref type="bibr" target="#b23">[25]</ref><ref type="bibr" target="#b24">[26]</ref> and their implementation in large scale transport calculations <ref type="bibr" target="#b25">[27]</ref><ref type="bibr" target="#b26">[28]</ref><ref type="bibr" target="#b27">[29]</ref>. The CA conductance Γ(E, n) is then generated within the TB model employing M = 2000 realizations, leading subsequently to the misfit function χ(n) of Fig. <ref type="figure" target="#fig_5">4(b)</ref>. Once again, χ(n) displays a minimum at exactly the same nitrogen concentration used to generated the input conductance Γ(E). Another indication of success can be seen by plotting the CA conductance evaluated at the minimizing concentration of χ(n). Shown as a dashed line in Fig. <ref type="figure" target="#fig_5">4(a)</ref>, it has all the key features of Γ(E) even though both curves were calculated independently. Despite the computational complexity of obtaining the misfit function entirely within DFT, this has also been tested and, reassuringly, we find exactly the same answer (see SM <ref type="bibr" target="#b53">[21]</ref> for details).</p><p>All input spectra in this manuscript were calculated from known Hamiltonians because it is then straightforward to test the success of the inversion method. Ultimately, inversions must be performed based on experimental conductance data of systems for which we do not have the full Hamiltonian. This calls for an inversion tool that is reliable, general and robust. The fact that our inversion strategy works for systems whose electronic structures are described by a simple TB model as well as by DFT calculations is indicative of the generality and robustness of this approach.</p><p>That disorder is beneficial to this inversion procedure is made evident by the distinction between the two panels of Fig. <ref type="figure">2</ref>. Viewed at a fixed energy, the deviation between the input and the CA conductance spectra reveals very little about the system. In contrast, the misfit function entails a lot of information. The efficiency of the procedure relies on an ergodic hypothesis: conductance fluctuations of a single sample versus energy are related to sample to sample fluctuations at a fixed energy. More precisely, the ergodic hypothesis assumes that a running average over a continuous parameter upon which the conductance depends is equivalent to sampling different impurity configurations. Here the continuous parameter is the energy, but the concept can be extended to a range of other quantities, e.g., magnetic field, gate voltage, etc. A thorough mathematical discussion of this issue is beyond the scope of this manuscript, but it is worth mentioning that the ergodic hypothesis can be proven exactly for certain models of disordered systems <ref type="bibr" target="#b28">[30]</ref><ref type="bibr" target="#b29">[31]</ref><ref type="bibr" target="#b30">[32]</ref>. That explains why the energy integration induces a distinctive minimum in χ(n) since it is analogous to considering a wider universe of disorder configurations in the CA procedure. The success of the inversion procedure will therefore depend on how wide the integration range is. See SM <ref type="bibr" target="#b53">[21]</ref> for details on the suitable choices for integration limits.</p><p>Another feature of the conductance fluctuations of quantum devices <ref type="bibr">[7,</ref><ref type="bibr" target="#b31">33]</ref> is that the correlation function C(δX) = Γ(X + δX/2)Γ(X -δX/2) -Γ(X) 2 is also universal <ref type="bibr" target="#b29">[31]</ref>. The latter is characterized by a correlation length δX cor that is system dependent. Therefore, the method works best when the integration interval ∆X is such that ∆X/δX cor 1. In our case, where we consider variations of the system chemical potential, δE cor scales with the mean level density times the transmission <ref type="bibr" target="#b32">[34]</ref>, which makes δE cor much larger than typical experimental temperatures, justifying our earlier claim that temperature has little effect on our inversion procedure. This also explains why the energy window used in the misfit-function definition does not have to be very large.</p><p>In summary, the inversion procedure presented here provides a mechanism capable of identifying the composition of scattering centres in a quantum device by simply looking at the energy dependence of the two-terminal device conductance. Assuming that the impurity type within the device is known, the procedure establishes the exact impurity concentration in it. Alternatively, if no information is known a priori about the scatterers, the inversion identifies their scattering strength and respective concentration. Finally, with a mixture of two different types of impurities we are able to establish the fractional concentration of each component of the device. Despite being presented with GNR, the technique is not materialspecific and performs remarkably well in the ballistic, diffusive and at the onset of localised transport regimes. The method is based on the notion that conductance fluctuations carry little system-specific information, the average conductance depends smoothly on the variables of interest and on a standard ergodic hypothesis <ref type="bibr" target="#b28">[30]</ref>, requiring only an effective (single-particle) description of the system. <ref type="bibr">[35]</ref> This small set of conditions renders a very robust and versatile methodology that can extract structural and compositional information of quantum devices from standard transport measurements.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. INVERSION PROCEDURE: TECHNICAL ASPECTS</head><p>Here we provide details of the inversion procedure implementation and an analysis of its accuracy. For that purpose we use the model system introduced in the main text as an illustrative example. Our strategy relies on calculating the conductance spectra that is used as input functions of the inversion method simply because we can refer back to the Hamiltonian that generated them in the first place, allowing us to establish whether or not the inversion was successful. A simple test is to start from the Hamiltonian of an arbitrary specific configuration of N impurities randomly located and calculate the corresponding conductance spectrum. This translates into an impurity concentration n (see main manuscript). The inversion works by finding the concentration that minimizes the misfit function, which we call n min . We then define the inversion procedure accuracy as α = |nn min |/n. In what follows we analyse how α depends on a few essential parameters and show that a careful tuning of such parameters may improve the success rate of the inversion methodology.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Accuracy of the inversion procedure</head><p>Figure <ref type="figure" target="#fig_3">1</ref> shows the inversion accuracy α for graphene nanoribbons (GNR) with W = 3a and L = 100 unit cells as a function of impurity concentration. One can see that α is very small for all concentrations below 8%, clearly indicating that our inversion tool is very reliable for dilute impurity concentrations.</p><p>It is worth recalling that we can not only confirm what the real impurity concentration that generated the Hamiltonian is but also the exact locations of the randomly placed impurities. Interestingly, as the concentration increases we find a growing number of impurities that are adjacent to one another forming pairs that may act as if they were isolated scatterers. For example, a randomly selected configuration of 15 impurities may have 13 of them well isolated whereas the remainder are clustered into a pair. In cases like that the inversion finds a concentration that would correspond to 14 impurities for the simple fact that the cluster may actually behave as a single scatterer. This explains why the inversion error also increases with the concentration. It is possible to reduce the error further by accounting for the probability of forming such pairs. By relaxing the assumption of short-range uncorrelated disorder originally made, we may adopt a similar strategy to the one used to produce Figure <ref type="figure" target="#fig_1">3</ref>(b) of the main text, i.e., where we treat impurity pairs as if they corresponded to a different class of impurities. In this way it is straightforward to discern between isolated and paired impurities, leading to an improved accuracy that can be sustained up to higher concentrations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Averaging energy window</head><p>The misfit function χ depends on the integration limits E + and E -, that is, the averaging energy window.</p><p>Figure <ref type="figure">2</ref> plots the inversion error α as a function of (E + -E -)/Z, where Z is the bandwidth. Note that α is large for very narrow energy windows, in perfect agreement with the single-energy featureless results of Fig. <ref type="figure">2(a</ref>) presented in the main manuscript. Note that any window at least 20% of the bandwidth generates excellent results.</p><p>In practical situations, it can be a difficult task to obtain the conductance spectrum over a significant portion of the bandwidth. We argue that good accuracy, i.e., small values of α, can be obtained with fairly small averaging windows. The idea of averaging is to eliminate the universal conductance fluctuations from the misfit function χ. Hence, the averaging window has to be sufficiently broad to contain a large number of oscillations of Γ(E). is the transmission autocorrelation length. Fortunately, the conductance fluctuations in mesoscopic systems are characterized by δE cor that are typically much smaller than the band width Z. Theory <ref type="bibr">[1,</ref><ref type="bibr">2]</ref> shows that δE cor depends essentially on the mean level density and on the average transmission Γ(E, n) . We point out that the same idea can be extended to variations other than the energy, such as with external fields, strain, etc.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Device size and transport regime</head><p>It is important to assess how accurate the inversion procedure is in different transport regimes. Fig. <ref type="figure" target="#fig_1">3</ref> plots the inversion accuracy as a function of the device size L for a concentration of n = 4%. It is unquestionable that the accuracy is very good (α &lt; 0.1) for all sizes considered. It is instructive to put this result in context by looking at the localization length of the system, which in the case of n = 4% of impurities is approximately 100 unit cells. That means that the inversion performs remarkably well regardless of the transport regime, i.e., whether it is ballistic, diffusive or at the onset of the localized regime.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Averaging procedure and statistical significance of the Configuration Average (CA) calculations</head><p>As discussed in the main text, the underlying hypothesis for the applicability of the method are that conductance fluctuations contain very little system-specific information (depending on disorder they can even have a universal character) and that the average conductance depends smoothly on the variables of interest. To obtain accurate averages from a data set of the conductance as a function of a continuous (running) variable we use a standard ergodic hypothesis <ref type="bibr">[3]</ref>. To be more precise, let us define the running average of a quantitity of interest O as</p><formula xml:id="formula_9">O(X) ≡ 1 ∆X dX O(X)</formula><p>where X is a generic continuous (running) variable and ∆X is its corresponding range in the data set. In our study we employ the ergodic hypothesis to replace averages over configurational disorder (ensemble averages) with running averages, i.e., Γ(X) = Γ(X)</p><p>and</p><formula xml:id="formula_10">Γ(X)Γ(X + δX) = Γ(X)Γ(X + δX)</formula><p>Note that the conductance is a two-point Green's function. This allows us to justify our statistical assumptions based on the vast literature on both the Kubo conductity for disordered diffusive bulk systems and Landauer conductance for disordered/chaotic nanostructures.</p><p>Regarding the number of configurations needed in the CA procedure, as standard, the higher the value of disorder realizations M the smaller the fluctuations in Γ(E, n) . Universal conductance fluctuations (UCF) help one to obtain accurate results for Γ(E, n) at a modest value of M . Both for diffusive <ref type="bibr">[4,</ref><ref type="bibr">5]</ref> and chaotic ballistic systems <ref type="bibr">[6]</ref>, var(Γ) ≈ 1 is the main fingerprint of UCF. Hence, the CA relative statistical error is expected to scale with [ √ M × Γ(E, n) ] -1 . To bring the degree of fluctuations to an acceptable level and produce results that are statistically significant, we note that M is usually of the order 10 3 . <ref type="bibr">[7,</ref><ref type="bibr">8]</ref>. Onedimensional (1D) systems, with corresponding smaller mean dimensionless conductance, require higher values of M to achieve statistical significance. Likewise, larger 2D systems and 3D ones, with larger mean transmission coefficients than those considered in this study, may require fewer configurations. Figure <ref type="figure" target="#fig_2">4</ref> confirms the earlier statement that M = 10 3 is sufficient to achieve statistical significance and reduce fluctuations to acceptable levels. In fact, the inversion error practically vanishes once M is of that order of magnitude.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Recursive Method</head><p>As shown in the main manuscript, the first order approximation of CA conductance induces a minimum in the misfit function located at n * = -B/A. Both A and B result from integrations whose integrands involve the function β(E) defined in the main text as the n-derivative of the CA conductance evaluated at n = 0. While this is an excellent approximation for n ≤ 3%, it can be extended to higher concentrations (up to 7%) if we adopt the following recursive procedure. We must redefine β(E) as the n-derivative of the CA conductance evaluated at an arbitrary concentration n and follow the steps below:</p><p>1. Evaluate average β(E) between n = 0 and an initial choice of n.</p><p>2. Calculate n * using the expression given in the main manuscript with the average β(E) function evaluated in step 1.</p><p>3. Make n = n * and return to step 1 until n * converges.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. DFT CALCULATIONS</head><p>The DFT calculation was performed using a localized atomic orbital basis set (LCAO), implemented in the SIESTA package <ref type="bibr">[9]</ref>. All calculations were carried out using a double-ζ basis with polarization orbitals within the generalized gradient approximation (GGA-PBE) <ref type="bibr">[10]</ref> for the exchange and correlation potential. A real space mesh cut-off of 300Ry, and a Monkhorst-Pack k-grid 80 points along the ribbon direction were chosen. The structures were fully relaxed down to a threshold force criteria of 0.01eV /Å.</p><p>Calculations for the disordered system were implemented in the following way: two initial DFT calculations were done, namely for a pristine GNR, and for a nanoribbon of length L = 7 unit cells containing only a single nitrogen substitutional impurity. From the Hamiltonians of the pristine ribbon and the one containing a single nitrogen, we assemble the N-impurity device by randomly distributing these building blocks over a fixed length and defect concentration. This is illustrated in Fig. <ref type="figure">5</ref> showing how the building blocks are patched together to form the device containing a finite concentration of impurities. Given the localized nature of the basis orbitals, the full Hamiltonian for the disordered problem is block tridiagonal. We can thus use a recursive method <ref type="bibr">[11]</ref><ref type="bibr">[12]</ref><ref type="bibr">[13]</ref><ref type="bibr">[14]</ref> to find the Green function matrix elements required to compute the Landauer conductance. These were the steps followed to obtain the conductance spectra Γ(E) of all DFT-based calculations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">DFT-based tight-binding Hamiltonian</head><p>There are numerous ways of extracting effective tightbinding (TB) Hamiltonians from DFT calculations, all of which reproduce the corresponding band structures very accurately <ref type="bibr">[15]</ref><ref type="bibr">[16]</ref><ref type="bibr">[17]</ref>. Combined with the help of quantum transport scripts <ref type="bibr">[18]</ref>, the TB parameters can be exported to highly efficient codes <ref type="bibr">[19]</ref><ref type="bibr">[20]</ref><ref type="bibr" target="#b53">[21]</ref> that can handle quantum transport calculations of very large systems. Despite the wide availability of such DFT-based TB Hamiltonians, for simplicity, the illustrative examples in the manuscript focus on single-band TB models. We stress, however, the following description is applicable to whichever TB-based model one chooses to adopt.</p><p>Instead of the usual band-structure fitting <ref type="bibr">[22,</ref><ref type="bibr">23]</ref>, our adopted procedure consisted of comparing the conductance spectra calculated within DFT and tight-binding. For the sake of differentiation we refer to them as Γ DFT N and Γ TB N , where the subscript simply indicates the number of impurities contained in the device. From the impurity-free results, i.e. Γ DFT 0 and Γ TB 0 , it is straightforward to extract the hopping parameter t that best captures the electronic structure of the pristine ribbon in question. The impurity on-site parameter is eas-  -Γ TB 1 ( )] 2 . In this case Γ TB 1 ( ) is the tightbinding conductance of a ribbon with a single impurity with on-site potential . The function χ( ) presents a very distinctive minimum, which we adopt as the value that best represents the scattering strength of the impurity. It is worth mentioning that it is not necessary to know the exact location of the impurity in the DFT calculation. In fact, this is automatically accounted for by evaluating the misfit function χ( ) for distinct impurity locations in the tight-binding part of the calculation. This is depicted in Fig. <ref type="figure">6</ref>. The absolute minimum found for χ( ) corresponds to the impurity location used in the DFT-based conductance which also defines the value of the on-site potential to be adopted in the subsequent CA calculation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scattering Region</head><note type="other">Pristine Block Single Defect Block Left Lead Right Lead</note><p>Finally, it is also instructive to compare the conductance spectra Γ DFT 1 and Γ TB 1 , the latter being calculated with the on-site potential obtained as described above. Bearing in mind that the misfit function was obtained by an integration in the 0 -0.2 eV energy range, the agreement between the two results shown in Fig. <ref type="figure">7</ref> is yet another indication of the effectiveness of our inversion procedure since both curves were calculated separately and independently.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">DFT-based misfit function</head><p>Although the approach described above is undoubtedly a good strategy to illustrate what can be achieved by carrying out the CA calculation within the TB model, it is by no means essential. To make this point evident, we have also carried out the CA part of the calculation entirely within DFT without availing of any TB parameterization. For each concentration value, M=50 different DFT disordered configurations were considered, each one of them generating conductance spectra with 500 energy values. The obtained misfit function χ(n) seen in Fig. <ref type="figure" target="#fig_9">8</ref> displays the same distinctive trend seen previously and with a minimum at exactly the same value (n = 0.7%) as the one depicted in Fig. <ref type="figure" target="#fig_5">4b</ref> of the main manuscript. This clearly indicates that the inversion method can decode the disorder signatures contained in the conductance signals regardless of the tool used to describe the underlying electronic structure. It is reassuring to find exactly the same answer using totally different tools. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 2 (FIG. 2 .</head><label>22</label><figDesc>FIG. 2. (a) Absolute value of the conductance deviation |∆Γ(E, n)| as a function of the impurity concentration n (in percentage) for a fixed energy (E = 0.42t). (b) Misfit function χ (in arbitrary units) as a function of n. The vertical (red) dashed line on the lower part of the panel indicates the real number of impurities used to generate the sample conductance, which coincides with the minimum of χ(n). The (black) dotted line in the upper part of the panel is the approximate concentration n * . Integration limits were E-= 0.5t and E+ = 1.5t and the solid (blue) line is simply a guide to the eyes.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>FIG. 3 .</head><label>3</label><figDesc>FIG. 3. 2D contour plots of the logarithm of the misfit function. Dashed lines in the plots indicate the values of the respective quantities used in the underlying Hamiltonians. (a): χ as a function of n and . (b): χ as a function of na and n b .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>FIG. 4 .</head><label>4</label><figDesc>FIG. 4. (a) The (red) solid line is the conductance spectrum Γ(E) obtained from a specific disorder realization of N = 10 nitrogen impurities, i.e., n = 0.7%. The (blue) dashed line represents the CA conductance (M = 2000) calculated for the concentration that minimizes the misfit function χ, shown in (b) as a function of n. The misfit function was generated with an energy window defined by E-= 0 and E+ = 2 eV. Dashed line indicates the exact concentration used to generate the input conductance.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>FIG. 1 .</head><label>1</label><figDesc>FIG.1. Inversion accuracy α plotted as a function of the impurity concentration n for a GNR with W = 3a and L = 100 unit cells. The impurity on-site potential was arbitrarily chosen as = 0.5t.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>FIG. 3 .</head><label>3</label><figDesc>FIG.3. Inversion accuracy α as a function of device size L (in unit cells). Devices of all sizes contained a fixed impurity concentration of n = 4%.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>FIG. 4 .</head><label>4</label><figDesc>FIG.4. Inversion accuracy α as a function of M. Calculations are for a GNR of L = 100 unit cells, all of which containing 3% of impurities.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>FIG. 5 . 1 ,</head><label>51</label><figDesc>FIG. 5.Illustrative diagram showing two different building blocks patched together at a random order to generate the finite-concentration device. The Hamiltonian of both blocks were obtained from DFT calculations.</figDesc><graphic coords="10,148.97,76.04,107.60,55.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>FIG. 6 .FIG. 7 .</head><label>67</label><figDesc>FIG.6. Contour plot of the misfit function χ to evaluate the impurity TB on-site energy . The single impurity sample conductance contains information about the location as well as the scattering strength of the impurity. The variable y/W indicates the impurity location, with y/W = 0 corresponding to the edge of the GNR and y/W = 1/2 marking its centre.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>FIG. 8 .</head><label>8</label><figDesc>FIG. 8. DFT based misfit function generated for an arbitrary configuration correctly indicates the minimum at 0.7% shown as a black dashed line.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head></head><label></label><figDesc>More precisely, ∆E/δE cor 1, where δE cor</figDesc><table><row><cell></cell><cell></cell><cell>1.2</cell></row><row><cell></cell><cell></cell><cell>1.0</cell></row><row><cell></cell><cell></cell><cell>0.8</cell></row><row><cell></cell><cell>α</cell><cell>0.6</cell></row><row><cell></cell><cell></cell><cell>0.4</cell></row><row><cell></cell><cell></cell><cell>0.2</cell></row><row><cell>arXiv:2007.12504v1 [cond-mat.mes-hall] 24 Jul 2020</cell><cell cols="2">0.0 0.0 FIG. 2. Inversion accuracy α as a function of averaging en-0.2 0.4 0.6 0.8 1.0 ϵ + -ϵ -Z ergy window considered for inversion technique. Averaging is carried out with 100 different configurations of L = 100 unit cells, each one of them containing 3% of impurities.</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>The authors acknowledge support from <rs type="funder">FAPESP-</rs>(Grant # <rs type="grantNumber">FAPESP 2017/02317-2</rs>, <rs type="grantNumber">2016/01343-7</rs>, and <rs type="grantNumber">2017/10292-0</rs>), <rs type="funder">CNPq</rs> (Grants <rs type="grantNumber">308801/2015-6</rs> and <rs type="grantNumber">312716/2018-4</rs>), <rs type="funder">FAPERJ</rs> (Grant <rs type="grantNumber">E-26/202.882/2018</rs>), and the <rs type="funder">ICTP-Simons Foundation Associate Scheme</rs>. The authors also thank the <rs type="institution">National Laboratory for Scientific Computing (LNCC/MCTI, Brazil)</rs> for providing HPC resources of the SDumont supercomputer, which have contributed to the results reported here. Discussions with <rs type="person">S. R. Power</rs> and <rs type="person">M. Kucukbas</rs> are greatly acknowledged.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_dYdKbAu">
+					<idno type="grant-number">FAPESP 2017/02317-2</idno>
+				</org>
+				<org type="funding" xml:id="_YG6ZNjX">
+					<idno type="grant-number">2016/01343-7</idno>
+				</org>
+				<org type="funding" xml:id="_hD39cag">
+					<idno type="grant-number">2017/10292-0</idno>
+				</org>
+				<org type="funding" xml:id="_GFrKJsx">
+					<idno type="grant-number">308801/2015-6</idno>
+				</org>
+				<org type="funding" xml:id="_MnKbtV7">
+					<idno type="grant-number">312716/2018-4</idno>
+				</org>
+				<org type="funding" xml:id="_hUDgn9D">
+					<idno type="grant-number">E-26/202.882/2018</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Disorder information from conductance: a quantum inverse problem (Supplemental Material)</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Datta</surname></persName>
+		</author>
+		<title level="m">Quantum Transport: Atom to Transistor</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Inverse problems in biomedical imaging: modeling and methods of solution</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bertero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Piana</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Complex Systems in Biomedicine</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Quarteroni</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Formaggia</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Veneziani</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Milan; Milano</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="1" to="33" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">An introduction to full waveform inversion</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Virieux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Asnaashari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Brossier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Metivier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ribodetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Encyclopedia of Exploration Geophysics</title>
+		<imprint>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spectral-element and adjoint methods in seismology</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tromp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Komatitsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications in Computational Physics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A novel approach to environment mapping using sonar sensors and inverse problems</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dias</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Vieira</forename><surname>Neto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Lecture Notes in Computer Science</title>
+		<editor>
+			<persName><forename type="first">C</forename><surname>Dixon</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Tuyls</surname></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">9287</biblScope>
+			<date type="published" when="2004">2004</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Stochastic versus semiclassical approach to quantum chaotic scattering</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lewenkopf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Weidenmüller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Phys</title>
+		<imprint>
+			<biblScope unit="volume">212</biblScope>
+			<biblScope unit="page">53</biblScope>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Universal conductance fluctuations in metals</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page">1622</biblScope>
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Tailoring the atomic structure of graphene nanoribbons by scanning tunnelling microscope lithography</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tapasztó</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dobrik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lambin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">P</forename><surname>Biro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat. Nanotechnol</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">397</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Landauer formula for the current through an interacting electron region</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Meir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Wingreen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page">2512</biblScope>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Datta</surname></persName>
+		</author>
+		<title level="m">Electronic Transport in Mesoscopic Systems</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The electronic properties of graphene</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Castro Neto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Guinea</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">M R</forename><surname>Peres</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Novoselov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Geim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Mod. Phys</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page">109</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Electronic transport in two-dimensional graphene</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Das</forename><surname>Sarma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">H</forename><surname>Hwang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Rossi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Mod. Phys</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page">407</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Modeling electronic quantum transport with machine learning</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lopez-Bezanilla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">A</forename><surname>Lilienfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page">235411</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Assessment and validation of machine learning methods for predicting molecular atomization energies</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Montavon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Biegler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fazli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Rupp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Scheffler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">A</forename><surname>Von Lilienfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Tkatchenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K.-R</forename><surname>Müller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Theor. Comput. Chem</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page">3404</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Tree based machine learning framework for predicting ground state energies of molecules</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Himmetoglu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Chem. Phys</title>
+		<imprint>
+			<biblScope unit="volume">145</biblScope>
+			<biblScope unit="page">134101</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A density functional tight binding layer for deep learning of chemical hamiltonians</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tanha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Gordon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Yaron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Chem. Theory Comput</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page">5764</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Panosetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Engelmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Nemec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Reuter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">T</forename><surname>Margraf</surname></persName>
+		</author>
+		<title level="m">Learning to use the force: Fitting repulsive potentials in density-functional tight-binding with gaussian process regression</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Quantum machine learning for electronic structure calculations</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kais</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat. Commun</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page">4195</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Quantum chemistry in the age of machine learning</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">O</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys. Chem. Lett</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page">2336</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Machine learning phases of matter</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carrasquilla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Melko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat. Phys</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page">431</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<monogr>
+		<title level="m" type="main">An alternative definition of β(E)</title>
+		<imprint/>
+	</monogr>
+	<note>shown in the SM [21], may extend the validity of the approximation to up to 7%</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Z2pack: Numerical implementation of hybrid wannier centers for identifying topological materials</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gresch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Autes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">V</forename><surname>Yazyev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Troyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Bernevig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Soluyanov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page">75146</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Wannier90 as a community code: new features and applications</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Pizzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Vitale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Arita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Blügel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Freimuth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Géranton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gibertini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gresch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Koretsune</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ibañez-Azpiroz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-M</forename><surname>Lihm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Marchand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Marrazzo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Mokrousov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">I</forename><surname>Mustafa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Nohara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Nomura</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Paulatto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poncé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ponweiser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Qiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Thöle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Tsirkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wierzbowska</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Marzari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Souza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Mostofi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Yates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys.: Condens. Matter</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page">165902</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">PAOFLOW: A utility to construct and operate on ab initio hamiltonians from the projections of electronic wavefunctions on atomic orbital bases, including characterization of topological materials</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Nardelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">T</forename><surname>Cerasoli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Costa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Curtarolo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Gennaro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fornari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Liyanage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Supka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Mater. Sci</title>
+		<imprint>
+			<biblScope unit="volume">143</biblScope>
+			<biblScope unit="page">462</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">The pythtb package</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Berry Phases in Electronic Structure Theory: Electric Polarization, Orbital Magnetization and Topological Insulators</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="327" to="362" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Kwant: a software package for quantum transport</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Groth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wimmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Akhmerov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Waintal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New J. Phys</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page">63065</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Efficient method for computing the electronic transport properties of a multiterminal system</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dusko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lewenkopf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page">165405</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Kite: high-performance accurate modelling of electronic structure and response functions of large molecules, disordered crystals and heterostructures</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>João</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Anđelković</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Covaci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Rappoport</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Lopes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ferreira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">R. Soc. Open Sci</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page">191809</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Ergodic behavior in the statistical theory of nuclear reactions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>French</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pandey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Lett. B</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="page">17</biblScope>
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Correlation functions in disordered systems</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Brézin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. E</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page">2588</biblScope>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Random-matrix theories in quantum physics: common concepts</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Guhr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Müller-Groeling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Weidenmüller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rep</title>
+		<imprint>
+			<biblScope unit="volume">299</biblScope>
+			<biblScope unit="page">189</biblScope>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Universal conductance fluctuations in metals: Effects of finite temperature, interactions, and magnetic field</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Stone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Fukuyama</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page">1039</biblScope>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Conductance fluctuations and weak localization in chaotic quantum dots</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R P</forename><surname>Alves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lewenkopf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page">256805</biblScope>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Stochastic versus semiclassical approach to quantum chaotic scattering</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lewenkopf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">A</forename><surname>Weidenmüller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Phys</title>
+		<imprint>
+			<biblScope unit="volume">212</biblScope>
+			<biblScope unit="page">53</biblScope>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Conductance fluctuations and weak localization in chaotic quantum dots</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R P</forename><surname>Alves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Lewenkopf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page">256805</biblScope>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Ergodic behavior in the statistical theory of nuclear reactions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>French</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pandey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Lett. B</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="page">17</biblScope>
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Universal conductance fluctuations in metals</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page">1622</biblScope>
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Universal conductance fluctuations in metals: Effects of finite temperature, interactions, and magnetic field</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Stone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Fukuyama</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page">1039</biblScope>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Mesoscopic transport through chaotic cavities: A random S-matrix theory approach</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">U</forename><surname>Baranger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Mello</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="page">142</biblScope>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">The statistical theory of quantum dots</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Alhassid</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Mod. Phys</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page">895</biblScope>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Modeling electronic quantum transport with machine learning</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lopez-Bezanilla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">A</forename><surname>Lilienfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page">235411</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">The siesta method for ab initio order-n materials simulation</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Soler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Artacho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Gale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>García</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Junquera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ordejón</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sánchez-Portal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys.: Condens. Matter</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page">2745</biblScope>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Generalized gradient approximation made simple</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Perdew</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Burke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ernzerhof</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page">3865</biblScope>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Confinement effects and why carbon nanotube bundles can work as gas sensors</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Amorim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fazzio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Rocha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nanoscale</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">2798</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Modelling the effect of randomly dispersed adatoms on carbon nanotubes</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">G</forename><surname>Rocha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Rocha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Ferreira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys.: Condens. Matter</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page">346201</biblScope>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Designing real nanotube-based gas sensors</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Rocha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Rossi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fazzio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J R</forename><surname>Da Silva</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. Lett</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="page">176803</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Realistic calculations of carbon-based disordered systems</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Rocha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Rossi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fazzio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys. D: Appl. Phys</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">374002</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Z2pack: Numerical implementation of hybrid wannier centers for identifying topological materials</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gresch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Autes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">V</forename><surname>Yazyev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Troyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Bernevig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Soluyanov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page">75146</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Wannier90 as a community code: new features and applications</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Pizzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Vitale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Arita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Blügel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Freimuth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Géranton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gibertini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gresch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Koretsune</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ibañez-Azpiroz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-M</forename><surname>Lihm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Marchand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Marrazzo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Mokrousov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">I</forename><surname>Mustafa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Nohara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Nomura</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Paulatto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poncé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ponweiser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Qiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Thöle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Tsirkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wierzbowska</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Marzari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Souza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Mostofi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Yates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys.: Condens. Matter</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page">165902</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b49">
+	<analytic>
+		<title level="a" type="main">PAOFLOW: A utility to construct and operate on ab initio hamiltonians from the projections of electronic wavefunctions on atomic orbital bases, including characterization of topological materials</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Nardelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">T</forename><surname>Cerasoli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Costa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Curtarolo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Gennaro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fornari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Liyanage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Supka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Mater. Sci</title>
+		<imprint>
+			<biblScope unit="volume">143</biblScope>
+			<biblScope unit="page">462</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b50">
+	<analytic>
+		<title level="a" type="main">The pythtb package</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vanderbilt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Berry Phases in Electronic Structure Theory: Electric Polarization, Orbital Magnetization and Topological Insulators</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="327" to="362" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Kwant: a software package for quantum transport</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Groth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wimmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Akhmerov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Waintal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New J. Phys</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page">63065</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Efficient method for computing the electronic transport properties of a multiterminal system</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dusko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lewenkopf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev. B</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page">165405</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Kite: high-performance accurate modelling of electronic structure and response functions of large molecules, disordered crystals and heterostructures</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>João</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Anđelković</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Covaci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Rappoport</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Lopes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ferreira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">R. Soc. Open Sci</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page">191809</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b54">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Papaconstantopoulos</surname></persName>
+		</author>
+		<title level="m">Handbook of the band structure of elemental solids</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Simplified LCAO method for the periodic potential problem</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Slater</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Koster</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phys. Rev</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="page">1498</biblScope>
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
