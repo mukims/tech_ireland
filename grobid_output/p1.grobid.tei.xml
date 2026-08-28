@@ -7,19 +7,19 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.co
 		<fileDesc>
 			<titleStmt>
 				<title level="a" type="main">Disorder information from conductance: a quantum inverse problem</title>
-				<funder ref="#_hD39cag">
+				<funder ref="#_twxMSmD">
 					<orgName type="full">CNPq</orgName>
 				</funder>
-				<funder ref="#_MnKbtV7">
+				<funder ref="#_EZcUXWd">
 					<orgName type="full">FAPERJ</orgName>
 				</funder>
-				<funder ref="#_hUDgn9D">
+				<funder ref="#_7nZhDu6">
 					<orgName type="full">ICTP-Simons Foundation Associate Scheme</orgName>
 				</funder>
-				<funder ref="#_YG6ZNjX #_GFrKJsx">
+				<funder ref="#_CT9CA3K #_ymxjgHK">
 					<orgName type="full">unknown</orgName>
 				</funder>
-				<funder ref="#_dYdKbAu">
+				<funder ref="#_PbsPjDQ">
 					<orgName type="full">FAPESP-</orgName>
 				</funder>
 			</titleStmt>
@@ -125,7 +125,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.co
 		</fileDesc>
 		<encodingDesc>
 			<appInfo>
-				<application version="0.8.2-SNAPSHOT" ident="GROBID" when="2026-08-27T18:44+0000">
+				<application version="0.8.2-SNAPSHOT" ident="GROBID" when="2026-08-28T11:49+0000">
 					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
 					<ref target="https://github.com/kermitt2/grobid"/>
 				</application>
@@ -164,22 +164,22 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.co
 <div><p>The authors acknowledge support from <rs type="funder">FAPESP-</rs>(Grant # <rs type="grantNumber">FAPESP 2017/02317-2</rs>, <rs type="grantNumber">2016/01343-7</rs>, and <rs type="grantNumber">2017/10292-0</rs>), <rs type="funder">CNPq</rs> (Grants <rs type="grantNumber">308801/2015-6</rs> and <rs type="grantNumber">312716/2018-4</rs>), <rs type="funder">FAPERJ</rs> (Grant <rs type="grantNumber">E-26/202.882/2018</rs>), and the <rs type="funder">ICTP-Simons Foundation Associate Scheme</rs>. The authors also thank the <rs type="institution">National Laboratory for Scientific Computing (LNCC/MCTI, Brazil)</rs> for providing HPC resources of the SDumont supercomputer, which have contributed to the results reported here. Discussions with <rs type="person">S. R. Power</rs> and <rs type="person">M. Kucukbas</rs> are greatly acknowledged.</p></div>
 			</div>
 			<listOrg type="funding">
-				<org type="funding" xml:id="_dYdKbAu">
+				<org type="funding" xml:id="_PbsPjDQ">
 					<idno type="grant-number">FAPESP 2017/02317-2</idno>
 				</org>
-				<org type="funding" xml:id="_YG6ZNjX">
+				<org type="funding" xml:id="_CT9CA3K">
 					<idno type="grant-number">2016/01343-7</idno>
 				</org>
-				<org type="funding" xml:id="_hD39cag">
+				<org type="funding" xml:id="_twxMSmD">
 					<idno type="grant-number">2017/10292-0</idno>
 				</org>
-				<org type="funding" xml:id="_GFrKJsx">
+				<org type="funding" xml:id="_ymxjgHK">
 					<idno type="grant-number">308801/2015-6</idno>
 				</org>
-				<org type="funding" xml:id="_MnKbtV7">
+				<org type="funding" xml:id="_EZcUXWd">
 					<idno type="grant-number">312716/2018-4</idno>
 				</org>
-				<org type="funding" xml:id="_hUDgn9D">
+				<org type="funding" xml:id="_7nZhDu6">
 					<idno type="grant-number">E-26/202.882/2018</idno>
 				</org>
 			</listOrg>
