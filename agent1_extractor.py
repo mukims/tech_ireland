@@ -49,7 +49,10 @@ GREY_MARKERS = (
 def run_grobid_batch(pdf_dir: str, output_dir: str):
     """Send every PDF in pdf_dir to the local GROBID server."""
     logger.info("Sending PDFs in %s to GROBID at %s…", pdf_dir, GROBID_SERVER)
-    client = GrobidClient(grobid_server=GROBID_SERVER)
+    # check_server=False: a serverless GROBID (Cloud Run) may be cold-starting;
+    # the platform holds the request while it boots, and any real failure still
+    # surfaces per-file in the batch below.
+    client = GrobidClient(grobid_server=GROBID_SERVER, check_server=False)
 
     # processFulltextDocument returns header, body and bibliography, and tags
     # in-text citation markers with the reference they point to.
