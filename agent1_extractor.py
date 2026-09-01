@@ -262,8 +262,8 @@ def run_extractor():
     if not tei_files:
         logger.error(
             "GROBID produced no TEI in %s. Check the server is up: "
-            "curl localhost:8070/api/isalive",
-            XML_OUTPUT_DIR,
+            "curl %s/api/isalive",
+            XML_OUTPUT_DIR, GROBID_SERVER,
         )
         return
 

@@ -45,7 +45,7 @@ import agent0_discoverer
 import agent1_extractor
 import agent2_fetcher
 import agent3_ingestor
-from config import EXTRACTED_CITATIONS_PATH
+from config import EXTRACTED_CITATIONS_PATH, GROBID_SERVER
 from shared.ingestion import ingest_pdfs
 from shared.log import get_logger
 
@@ -124,8 +124,9 @@ def extract(state: PipelineState) -> dict:
         return {
             "references_ok": False,
             "stopped": (
-                f"Agent 1 produced no {os.path.basename(EXTRACTED_CITATIONS_PATH)} "
-                "— is the GROBID server up? (curl localhost:8070/api/isalive)"
+                "GROBID returned no references — the server at "
+                f"{GROBID_SERVER} is down, asleep, or rate-limiting. "
+                f"Check: curl {GROBID_SERVER}/api/isalive"
             ),
         }
     return {"references_ok": True}
