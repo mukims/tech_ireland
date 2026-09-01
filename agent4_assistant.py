@@ -31,8 +31,9 @@ def suggest_citation(text, top_k=DEFAULT_TOP_K, search_resources=None):
                           several queries loads the index once.
 
     Returns:
-        dict with ``suggestion`` (str), ``citations`` (list[str]) and ``response``
-        (the raw Ollama object), or None when retrieval found nothing.
+        dict with ``suggestion`` (str), ``citations`` (list[str]), ``passages``
+        (the retrieved hybrid-search hits) and ``response`` (the ChatResult),
+        or None when retrieval found nothing.
     """
     collection, bm25, texts, metadatas = search_resources or load_search_resources()
 
@@ -60,6 +61,7 @@ def suggest_citation(text, top_k=DEFAULT_TOP_K, search_resources=None):
     return {
         "suggestion": result.content,
         "citations": citations_pool,
+        "passages": results,
         "response": result,
     }
 
