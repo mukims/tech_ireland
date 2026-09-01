@@ -37,8 +37,10 @@ warnings.filterwarnings("ignore", message=".*torch.meshgrid.*")
 from config import (
     VECTORDB_PATH,
     COLLECTION_NAME,
+    SUMMARY_COLLECTION_NAME,
     BM25_INDEX_PATH,
     LAYOUT_DETECTION,
+    FIGURE_VLM,
     DETECTRON_WEIGHTS,
     DETECTRON_CONFIG,
     DETECTRON_LABEL_MAP,
@@ -50,8 +52,10 @@ from config import (
     EMBED_MAX_CHARS,
     SEMANTIC_CHUNKER_TYPE,
     SEMANTIC_CHUNKER_AMOUNT,
+    SUMMARY_MODEL,
+    SUMMARY_MAX_CHARS,
 )
-from prompts import FIGURE_DESCRIPTION
+from prompts import FIGURE_DESCRIPTION, DOCUMENT_SUMMARY
 from shared.log import get_logger
 from shared.retry import retry
 from shared.db import get_max_chunk_index
@@ -275,19 +279,29 @@ def _process_pdf_layout(pdf_path: str, citation_string: str, detectron_weights=N
 
                 context = find_caption(text_blocks_img, (x1, y1, x2, y2), fig.type)
 
-                try:
-                    vlm_desc = describe_figure(out_path, fig.type, context)
-                except Exception as e:
-                    logger.error("VLM failed on %s: %s", out_name, e)
-                    vlm_desc = "Description generation failed."
+                # The searchable text for a figure is its caption. A VLM
+                # description is opt-in (CITATION_FIGURE_VLM) — otherwise the
+                # crop is kept for on-demand description at query time.
+                described = False
+                content = context or f"{fig.type} on page {page_idx + 1} ({pdf_name})"
+                if FIGURE_VLM:
+                    try:
+                        content = describe_figure(out_path, fig.type, context)
+                        described = True
+                    except Exception as e:
+                        logger.error("VLM failed on %s: %s", out_name, e)
 
                 corpus.append({
                     "document": pdf_name,
                     "citation": citation_string,
                     "page": page_idx,
                     "type": fig.type.lower(),
-                    "content": vlm_desc,
-                    "metadata": {"image_path": out_name, "caption": context},
+                    "content": content,
+                    "metadata": {
+                        "image_path": out_name,
+                        "caption": context,
+                        "described": described,
+                    },
                 })
 
         elapsed = time.perf_counter() - t0
@@ -300,6 +314,58 @@ def _process_pdf_layout(pdf_path: str, citation_string: str, detectron_weights=N
         logger.error("Failed to process %s: %s", pdf_path, e)
 
     return corpus
+
+
+# ─── Document summaries (stage-1 index) ─────────────────────────────────────
+
+
+def upsert_summaries(per_doc_text: dict, per_doc_citation: dict) -> int:
+    """One LLM summary per new document, into SUMMARY_COLLECTION_NAME.
+
+    This is the coarse "is this paper even relevant" index that retrieval
+    consults before touching the detail chunks. Cost is one model call per
+    document, once.
+    """
+    import chromadb
+    from shared.llm import chat, get_embeddings
+
+    client = chromadb.PersistentClient(path=VECTORDB_PATH)
+    col = client.get_or_create_collection(
+        name=SUMMARY_COLLECTION_NAME, metadata={"hnsw:space": "cosine"}
+    )
+
+    have = set()
+    got = col.get(include=["metadatas"])
+    for m in got.get("metadatas") or []:
+        if m and m.get("document"):
+            have.add(m["document"])
+
+    embeddings = get_embeddings()
+    made = 0
+    for doc, text in per_doc_text.items():
+        if doc in have or not text.strip():
+            continue
+        try:
+            summary = chat(
+                [{"role": "user", "content": DOCUMENT_SUMMARY.format(text=text[:SUMMARY_MAX_CHARS])}],
+                model=SUMMARY_MODEL,
+            ).content.strip()
+        except Exception as e:
+            logger.error("Summary failed for %s: %s", doc, e)
+            continue
+        if not summary:
+            continue
+        col.add(
+            ids=[f"sum::{doc}"],
+            documents=[summary],
+            embeddings=[embeddings.embed_query(summary)],
+            metadatas=[{"document": doc, "citation_source": per_doc_citation.get(doc, "")}],
+        )
+        made += 1
+
+    if made:
+        logger.info("✓ Wrote %d document summary/-ies.", made)
+    return made
 
 
 # ─── ChromaDB upsert ─────────────────────────────────────────────────────────
@@ -355,9 +421,14 @@ def upsert_corpus(corpus: list[dict]):
             key = (entry["document"], entry["citation"], entry["page"])
             page_text_groups.setdefault(key, []).append(content)
 
+    # Per-document full text, for the summary index (populated as we chunk).
+    per_doc_text, per_doc_citation = {}, {}
+
     # Chunk each page's concatenated text in one call
     for (doc, cit, page), texts in page_text_groups.items():
         merged = "\n\n".join(texts)
+        per_doc_text[doc] = per_doc_text.get(doc, "") + "\n\n" + merged
+        per_doc_citation.setdefault(doc, cit)
         try:
             docs = chunker.create_documents([merged])
             for j, doc_chunk in enumerate(docs):
@@ -427,6 +498,12 @@ def upsert_corpus(corpus: list[dict]):
         )
     else:
         logger.info("No new chunks to insert (all duplicates or empty).")
+
+    # Stage-1 summary index — one model call per new document.
+    try:
+        upsert_summaries(per_doc_text, per_doc_citation)
+    except Exception as e:
+        logger.error("Summary index update failed: %s", e)
 
     return len(documents)
 

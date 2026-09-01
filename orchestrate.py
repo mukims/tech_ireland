@@ -147,10 +147,10 @@ def ingest_refs(state: PipelineState) -> dict:
 
 
 def respond(state: PipelineState) -> dict:
-    _banner("respond — answering the query against the new corpus (Agent 4)")
-    import agent4_assistant  # imported here so corpus-building doesn't load Ollama
+    _banner("respond — related-work synthesis for the query")
+    from shared import retrieve  # imported here so corpus-building stays light
 
-    result = agent4_assistant.suggest_citation(state["query"])
+    result = retrieve.research_answer(state["query"])
     return {"answer": result}
 
 

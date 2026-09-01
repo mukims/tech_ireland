@@ -51,7 +51,8 @@ CHAT_OLLAMA_OPTIONS = {
 
 # ─── Vector Database ──────────────────────────────────────────────────────────
 VECTORDB_PATH    = os.path.join(DATA_DIR, "physics_vectordb")
-COLLECTION_NAME  = "physics_papers"
+COLLECTION_NAME  = "physics_papers"       # detail chunks (stage-2 retrieval)
+SUMMARY_COLLECTION_NAME = "physics_summaries"   # one summary per document (stage 1)
 BM25_INDEX_PATH  = os.path.join(DATA_DIR, "bm25_index.pkl")
 
 # ─── Directories ──────────────────────────────────────────────────────────────
@@ -105,6 +106,19 @@ EMBED_MAX_CHARS          = 4000     # Truncate documents to this length before e
 SEMANTIC_CHUNKER_TYPE    = "percentile"
 SEMANTIC_CHUNKER_AMOUNT  = 90       # 90th percentile breakpoint
 
+# Figure/table handling. The layout pass always crops the image and keeps its
+# caption as the searchable text. Set CITATION_FIGURE_VLM=1 to also run a VLM
+# description of every crop at ingest time (one model call per figure — off by
+# default; crops can be described on demand instead).
+FIGURE_VLM               = os.environ.get("CITATION_FIGURE_VLM", "0").lower() in (
+    "1", "true", "yes",
+)
+
+# Per-document summary written to SUMMARY_COLLECTION_NAME at ingest time — the
+# stage-1 "is this paper even relevant" index. One model call per paper.
+SUMMARY_MODEL            = os.environ.get("CITATION_SUMMARY_MODEL", "") or None  # None → LLM_MODEL
+SUMMARY_MAX_CHARS        = int(os.environ.get("CITATION_SUMMARY_MAX_CHARS", "8000"))
+
 # ─── Agent 5 — Batch Citer ────────────────────────────────────────────────────
 # Sentences per citation-need request. One request for a whole draft makes the
 # entire run hostage to a single malformed reply; smaller batches confine that
@@ -114,6 +128,12 @@ CITATION_CHECK_BATCH_SIZE = 20
 # ─── Search Tunables ──────────────────────────────────────────────────────────
 RRF_K            = 60               # Reciprocal Rank Fusion constant
 DEFAULT_TOP_K    = 3                # Default number of results to return
+
+# Two-stage retrieval: rank documents by summary similarity, keep the top
+# DOC_SELECT_K, optionally have the LLM drop the off-topic ones (DOC_GATE),
+# then run the detail search only over what survives.
+DOC_SELECT_K     = int(os.environ.get("CITATION_DOC_SELECT_K", "6"))
+DOC_GATE         = os.environ.get("CITATION_DOC_GATE", "1").lower() in ("1", "true", "yes")
 
 # ─── Orchestrator Tunables ────────────────────────────────────────────────────
 PDF_COOLDOWN_SECONDS     = 30

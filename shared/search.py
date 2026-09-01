@@ -34,6 +34,7 @@ def hybrid_search(
     top_k: int = DEFAULT_TOP_K,
     rrf_k: int = RRF_K,
     embeddings_model=None,
+    doc_filter: set | None = None,
 ) -> list[dict]:
     """
     Perform hybrid (BM25 sparse + dense vector) search with Reciprocal Rank Fusion.
@@ -46,8 +47,10 @@ def hybrid_search(
         metadatas:        Ordered list of metadata dicts (aligned with texts).
         top_k:            Number of final results to return.
         rrf_k:            RRF fusion constant (higher = less rank bias).
-        embeddings_model: Optional pre-initialised OllamaEmbeddings instance.
-                          If None, a module-level singleton is used.
+        embeddings_model: Optional pre-initialised embeddings instance.
+        doc_filter:       If given, restrict results to chunks whose
+                          ``metadata["document"]`` is in this set (stage-2 of
+                          two-stage retrieval).
 
     Returns:
         list[dict]: Each entry has keys: chunk_index, text, metadata, rrf_score.
@@ -55,7 +58,9 @@ def hybrid_search(
     if embeddings_model is None:
         embeddings_model = _get_embeddings()
 
-    k_cand = max(15, top_k * 3)
+    # When narrowing to a handful of documents, most global candidates get
+    # discarded — widen the candidate pool so enough survive the filter.
+    k_cand = max(60, top_k * 10) if doc_filter else max(15, top_k * 3)
 
     # 1. Sparse (BM25) retrieval
     tokenized_query = re.findall(r'\w+', query.lower())
@@ -70,12 +75,19 @@ def hybrid_search(
     else:
         sparse_top_indices = np.argsort(bm25_scores)[::-1]
 
+    if doc_filter:
+        sparse_top_indices = [
+            i for i in sparse_top_indices
+            if (metadatas[i] if i < len(metadatas) else {}).get("document") in doc_filter
+        ]
+
     # 2. Dense (embedding) retrieval
     query_emb = embeddings_model.embed_query(query)
     dense_results = collection.query(
         query_embeddings=[query_emb],
         n_results=k_cand,
         include=["documents", "metadatas", "distances"],
+        where={"document": {"$in": list(doc_filter)}} if doc_filter else None,
     )
 
     # The integer in a "chunk_N" id doubles as the position of that chunk in

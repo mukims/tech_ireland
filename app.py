@@ -62,6 +62,14 @@ def _grobid_ok():
         return False
 
 
+def _manifest(path):
+    try:
+        with open(path) as fh:
+            return json.load(fh)
+    except Exception:
+        return {}
+
+
 # ─── Rendering ──────────────────────────────────────────────────────────────
 
 STEPS = {
@@ -99,7 +107,46 @@ def _render_suggestion(result):
                     st.divider()
 
 
-def _render_build(final):
+def _render_seed_and_downloads(query):
+    seed = _manifest(config.SEED_PAPERS_PATH).get(query) or {}
+    if seed:
+        with st.container(border=True):
+            st.markdown(f"**🌱 Seed paper** — {seed.get('title') or seed.get('key')}")
+            bits = []
+            if seed.get("url"):
+                bits.append(f"[PDF]({seed['url']})")
+            if seed.get("arxiv_id"):
+                bits.append(f"arXiv:{seed['arxiv_id']}")
+            if seed.get("doi"):
+                bits.append(f"doi:{seed['doi']}")
+            bits.append(f"`{seed.get('key', '')}`")
+            st.caption(" · ".join(bits))
+
+    downloaded = _manifest(config.DOWNLOADED_JSON_PATH)
+    failed = _manifest(config.FAILED_DOWNLOADS_PATH)
+    if downloaded or failed:
+        with st.expander(
+            f"Reference PDFs — {len(downloaded)} fetched, {len(failed)} unavailable"
+        ):
+            for rec in downloaded.values():
+                title = rec.get("title") or rec.get("raw_reference") or rec.get("key")
+                st.markdown(f"- ✅ {title}")
+            for rec in failed.values():
+                title = rec.get("title") or rec.get("raw_reference") or rec.get("key")
+                st.markdown(f"- ⚠️ {title}  \n  <sub>{rec.get('reason', '')}</sub>",
+                            unsafe_allow_html=True)
+
+
+def _render_shortlist(selected):
+    if not selected:
+        return
+    st.markdown(f"**Relevant prior work** — {len(selected)} paper(s)")
+    for r in selected:
+        with st.expander(f"{r.get('citation') or r.get('document')}  ·  score {r.get('score', '')}"):
+            st.write(r.get("summary", ""))
+
+
+def _render_build(final, query):
     if final.get("stopped"):
         st.error(final["stopped"], icon="🛑")
         if "supply an arXiv" in final["stopped"]:
@@ -110,11 +157,26 @@ def _render_build(final):
             )
         return
 
-    if final.get("seed_label"):
-        st.success(f"Seed paper indexed — *{final['seed_label']}*", icon="🌱")
+    _render_seed_and_downloads(query)
 
-    if final.get("answer"):
-        _render_suggestion(final["answer"])
+    answer = final.get("answer")
+    if answer:
+        _render_shortlist(answer.get("selected"))
+        with st.container(border=True):
+            st.markdown("###### Related work")
+            st.markdown(answer["suggestion"])
+        if answer.get("citations"):
+            st.caption("Sources: " + " · ".join(str(c) for c in answer["citations"]))
+        passages = answer.get("passages") or []
+        if passages:
+            with st.expander(f"Retrieved context · {len(passages)} passage(s)"):
+                for i, p in enumerate(passages, 1):
+                    m = p.get("metadata") or {}
+                    st.caption(
+                        f"{i}. **{m.get('citation_source', '?')}** — "
+                        f"{m.get('document', '?')} · p.{m.get('page', '?')}"
+                    )
+                    st.text((p.get("text") or "")[:900])
     else:
         st.info(
             "Corpus updated. Switch to **Cite a draft** to query it.", icon="✍️"
@@ -152,8 +214,9 @@ with st.sidebar:
 
 st.title("📚 Citation Agent")
 st.caption(
-    "Turn a research idea into a searchable, citable corpus — then let it "
-    "insert the right citations into your writing."
+    "Give it a research idea → it builds a corpus from the literature and tells "
+    "you what's already been done. Or hand it a sentence and it finds the "
+    "citation."
 )
 
 tab_build, tab_cite = st.tabs(["Research a topic", "Cite a draft"])
@@ -206,13 +269,18 @@ with tab_build:
                 final = {}
 
         st.session_state["build_result"] = final
+        st.session_state["build_query"] = query.strip()
 
     if st.session_state.get("build_result"):
-        _render_build(st.session_state["build_result"])
+        _render_build(
+            st.session_state["build_result"],
+            st.session_state.get("build_query", ""),
+        )
     elif not (submitted and query.strip()):
         st.caption(
             "Agent 0 finds a paper → Agent 1 reads its references → "
-            "Agent 2 fetches them → Agent 3 indexes everything."
+            "Agent 2 fetches them → Agent 3 indexes everything → "
+            "the top papers get summarised and matched to your idea."
         )
 
 

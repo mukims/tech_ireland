@@ -76,9 +76,38 @@ the researcher asks for detail. When referencing papers, use the citation
 information provided in the context blocks."""
 
 
-# ─── Figure description (ingestion VLM pass) ────────────────────────────────
+# ─── Figure description (ingestion VLM pass — only when CITATION_FIGURE_VLM=1) ─
 FIGURE_DESCRIPTION = (
     "You are analysing scientific plots. Describe this {fig_type}. "
     "Extract textual information, data and trends.\n\n"
     "Surrounding Document Context:\n{context}. Answer in 3-5 sentences at max."
+)
+
+
+# ─── Document summary (ingestion — stage-1 relevance index) ─────────────────
+DOCUMENT_SUMMARY = (
+    "Summarise this research paper for a literature-review index. In 120-180 "
+    "words and plain prose (no preamble, no bullet points), state: the problem "
+    "it addresses, the method or approach it uses, and its main result or "
+    "contribution.\n\nPaper text:\n{text}"
+)
+
+
+# ─── Stage-1 relevance gate (retrieval) ────────────────────────────────────
+DOC_RELEVANCE_GATE = (
+    "A researcher is exploring this idea:\n\"{query}\"\n\n"
+    "Here is a summary of one paper:\n\"{summary}\"\n\n"
+    "Could this paper be relevant prior work for that idea — even loosely? "
+    "Answer with only YES or NO."
+)
+
+
+# ─── Related-work synthesis (Agent 7 user turn) ───────────────────────────
+RELATED_WORK_USER = (
+    "The researcher is exploring:\n\"{query}\"\n\n"
+    "Below are excerpts from papers already in the literature, each tagged with "
+    "its citation key. Write a short related-work overview: what has already "
+    "been done, grouped by theme, citing each source by its key. Finish with "
+    "one or two sentences on where this idea might still add something. Use "
+    "only the provided sources.\n\n{context}"
 )
