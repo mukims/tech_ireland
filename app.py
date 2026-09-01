@@ -254,22 +254,32 @@ with tab_build:
         submitted = st.form_submit_button("Build corpus", type="primary")
 
     if submitted and query.strip():
+        q = query.strip()
         graph = _graph()
-        cfg = {"configurable": {"thread_id": query.strip()[:64]}}
+        cfg = {"configurable": {"thread_id": q[:64]}}
         inputs = {
-            "query": query.strip(),
+            "query": q,
             "workers": 1,
             "force": force,
             "ask": ask,
             "seed_url": seed_url.strip() or None,
         }
 
+        # Filled progressively as nodes complete, so the seed + downloads show
+        # up mid-run instead of only at the end.
+        live = st.empty()
+
         with st.status("Running the pipeline…", expanded=True) as status:
+            final = {}
             try:
                 for update in graph.stream(inputs, cfg, stream_mode="updates"):
-                    for node in update:
+                    for node, payload in update.items():
                         icon, label = STEPS.get(node, ("•", node))
                         st.write(f"{icon} {label}")
+                        final.update(payload or {})
+                        if node in ("discover", "ingest_seed", "fetch", "ingest_refs"):
+                            with live.container():
+                                _render_seed_and_downloads(q, final)
                 final = graph.get_state(cfg).values
                 if final.get("stopped"):
                     status.update(label="Stopped early", state="error")
@@ -278,10 +288,10 @@ with tab_build:
             except Exception as e:  # noqa: BLE001
                 status.update(label="Pipeline failed", state="error")
                 st.exception(e)
-                final = {}
 
+        live.empty()
         st.session_state["build_result"] = final
-        st.session_state["build_query"] = query.strip()
+        st.session_state["build_query"] = q
 
     if st.session_state.get("build_result"):
         _render_build(

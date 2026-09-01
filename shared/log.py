@@ -21,6 +21,10 @@ LOG_DIR  = os.environ.get("CITATION_LOG_DIR", os.path.join(PROJECT_ROOT, "logs")
 LOG_FILE = os.path.join(LOG_DIR, "citation_agent.log")
 LOG_TO_FILE = os.environ.get("CITATION_LOG_FILE", "1").lower() not in ("0", "false", "no")
 
+# httpx logs one INFO line per request — with the Ollama embedding batches that
+# is hundreds of "HTTP Request: POST .../api/embed 200 OK" lines. Quiet it.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 
 def get_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     """Return a named logger that writes to both console and a rotating log file."""
