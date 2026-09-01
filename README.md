@@ -1,10 +1,16 @@
 # Citation Agent Pipeline
 
-A multi-agent pipeline that builds a citable knowledge base from physics papers
-and helps you cite it while you write. Starting from a one-line research idea,
-it finds a seed paper, walks its reference list, fetches the open-access PDFs it
-can find, ingests them into a hybrid (vector + keyword) search index, and then
-suggests formal LaTeX citations for draft text grounded in that corpus.
+A multi-agent pipeline that builds a citable knowledge base from physics papers.
+From a one-line research idea it finds a seed paper, walks its reference list,
+fetches the open-access PDFs it can find, and ingests them — chunk-level into a
+hybrid (vector + keyword) index and paper-level as a one-paragraph summary. It
+then answers two questions: *what has already been done on this idea* (a
+related-work synthesis) and *which source backs this sentence* (a LaTeX
+citation).
+
+Retrieval is two-stage: match the idea against the paper **summaries** first,
+let the LLM drop the off-topic ones, then run the detailed chunk search only
+over what survives — so it stays fast as the corpus grows.
 
 It runs two ways from the same code:
 
@@ -25,13 +31,15 @@ Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
 | **Agent 0 — Discoverer** | [agent0_discoverer.py](agent0_discoverer.py) | Takes a free-text research idea and searches relevance-ranked indexes in turn — arXiv, then OpenAlex, then Semantic Scholar — downloading the first result whose PDF actually fetches (paywalled publisher links are skipped, not fatal). Saves it into `raw/` under a `source_key`-derived name and records the query → paper in `seed_papers.json`. If nothing downloads, `--seed-url` / `discover_from_url()` takes an arXiv or direct-PDF link instead. From here the rest of the pipeline runs unchanged. |
 | **Agent 1 — Extractor** | [agent1_extractor.py](agent1_extractor.py) | Sends every PDF in `raw/` to a local GROBID server, parses the TEI output, and writes each paper's own metadata plus its full reference list (title, authors, year, DOI, raw string) to `extracted_citations.json`. Scores each consolidated DOI against the printed reference so grey-literature mismatches can be flagged. |
 | **Agent 2 — Fetcher** | [agent2_fetcher.py](agent2_fetcher.py) | Collapses the references to distinct sources, resolves a DOI per source (trusting Agent 1 when it was confident, otherwise asking Crossref), and tries to download an open-access PDF from Unpaywall → Europe PMC → arXiv. Writes `downloaded.json` / `failed_downloads.json` incrementally so a crashed run resumes. |
-| **Agent 3 — Ingestor** | [agent3_ingestor.py](agent3_ingestor.py) | For each downloaded PDF: Detectron2 page-layout detection, a VLM pass to describe figures and tables, semantic chunking of the text, embedding into ChromaDB, and a rebuild of the BM25 index. Tracks what has already been ingested so re-runs are cheap. |
+| **Agent 3 — Ingestor** | [agent3_ingestor.py](agent3_ingestor.py) | For each downloaded PDF: semantic chunking of the text, embedding into ChromaDB, a rebuild of the BM25 index, and **one LLM summary per paper** into a separate `physics_summaries` collection. With layout detection on, it also crops figures/tables and keeps their captions (a VLM description of each is opt-in, `CITATION_FIGURE_VLM=1`). Tracks what's ingested so re-runs are cheap. |
+| **Two-stage retrieval** | [shared/retrieve.py](shared/retrieve.py) | Stage 1: rank papers by summary similarity → LLM gate ("relevant prior work? Y/N") → shortlist. Stage 2: hybrid chunk search restricted to the shortlist. `research_answer()` then synthesises a related-work overview. |
 | **Agent 4 — Assistant** | [agent4_assistant.py](agent4_assistant.py) | Given a snippet of draft text, runs hybrid search over the corpus and asks the LLM to rewrite the snippet with the correct `\cite{key}` inserted, plus an explanation of why that source supports the claim. |
 
 Agent 0 just leaves a PDF in `raw/`, which is exactly what Agent 1 already
 reads — nothing downstream needs to know it ran. The reference-list format
 written by Agent 1 is consumed by Agent 2, whose manifest is consumed by
-Agent 3, whose index is queried by Agent 4.
+Agent 3, whose two indexes (chunks + summaries) are queried by the retrieval
+layer and Agent 4.
 
 **[orchestrate.py](orchestrate.py)** runs the whole chain for one research idea
 as a **LangGraph** state machine:
@@ -70,6 +78,8 @@ prompts.py                                  every prompt sent to a model
 shared/
   ingestion.py    PDF processing, chunking, ChromaDB upsert, BM25 rebuild
   search.py       hybrid BM25 + dense retrieval with Reciprocal Rank Fusion
+  retrieve.py     two-stage retrieval (summary shortlist → deep chunk search)
+  llm.py          backend-agnostic chat + embeddings (ollama / openai / huggingface)
   fetch.py        stream-a-PDF-to-disk-with-validation (shared by Agent 0 and Agent 2)
   db.py           ChromaDB + BM25 loading helpers
   source_key.py   deterministic identity for a reference / document (doi:, arxiv:, title:, raw:)
@@ -207,8 +217,11 @@ Settings → Variables and secrets.
   anchored to the repo, so scripts can be run from anywhere.
 - Backend: `LLM_BACKEND`, `EMBED_BACKEND`, `OPENAI_BASE_URL`, `OPENAI_API_KEY` /
   `HF_TOKEN`, `CITATION_LLM_MODEL`, `CITATION_CHAT_MODEL`, `CITATION_EMBED_MODEL`.
-- Ingestion: `CITATION_LAYOUT_DETECTION`, `CITATION_DETECTRON_WEIGHTS`,
-  `CITATION_IMAGES_DIR`.
+- Ingestion: `CITATION_LAYOUT_DETECTION`, `CITATION_FIGURE_VLM`,
+  `CITATION_DETECTRON_WEIGHTS`, `CITATION_IMAGES_DIR`,
+  `CITATION_SUMMARY_MODEL`, `CITATION_SUMMARY_MAX_CHARS`.
+- Retrieval: `CITATION_DOC_SELECT_K` (stage-1 shortlist size),
+  `CITATION_DOC_GATE` (LLM relevance gate, default on).
 - Agent 1: `GROBID_SERVER`, `GROBID_BATCH_CONCURRENCY`.
 - Agent 0: `CITATION_SEARCH_PROVIDERS` (default `arxiv,openalex,semanticscholar`,
   tried in order), `OPENALEX_MAILTO`, `S2_API_KEY` (optional Semantic Scholar
