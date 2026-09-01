@@ -111,51 +111,105 @@ def _search_semanticscholar(query, limit, retries=4):
     return []
 
 
+def _search_arxiv(query, limit):
+    import xml.etree.ElementTree as ET
+
+    res = requests.get(
+        "http://export.arxiv.org/api/query",
+        params={"search_query": f"all:{query}", "max_results": limit,
+                "sortBy": "relevance"},
+        headers=HEADERS,
+        timeout=20,
+    )
+    res.raise_for_status()
+    ns = {"a": "http://www.w3.org/2005/Atom"}
+    root = ET.fromstring(res.content)
+
+    out = []
+    for e in root.findall("a:entry", ns):
+        raw_id = (e.findtext("a:id", "", ns) or "").rsplit("/abs/", 1)[-1]
+        arxiv_id = raw_id.split("v")[0] or None
+
+        pdf = None
+        for link in e.findall("a:link", ns):
+            if link.get("title") == "pdf":
+                pdf = link.get("href", "").replace("http://", "https://")
+        if pdf and not pdf.endswith(".pdf"):
+            pdf += ".pdf"
+
+        out.append({
+            "title": " ".join((e.findtext("a:title", "", ns) or "").split()),
+            "doi": None,
+            "arxiv_id": arxiv_id,
+            "pmid": None,
+            "authors": [a.findtext("a:name", "", ns) for a in e.findall("a:author", ns)],
+            "year": (e.findtext("a:published", "", ns) or "")[:4] or None,
+            "pdf_url": pdf,
+        })
+    return out
+
+
 _PROVIDERS = {
     "openalex": _search_openalex,
+    "arxiv": _search_arxiv,
     "semanticscholar": _search_semanticscholar,
 }
-
-
-def search_candidates(query, limit=SEARCH_LIMIT):
-    """Try each configured provider in turn; return the first non-empty result."""
-    for name in SEARCH_PROVIDERS:
-        name = name.strip()
-        provider = _PROVIDERS.get(name)
-        if not provider:
-            logger.warning("Unknown search provider %r — skipping.", name)
-            continue
-        try:
-            results = provider(query, limit)
-        except requests.RequestException as exc:
-            logger.warning("%s search failed: %s", name, exc)
-            continue
-        if results:
-            logger.info("%s returned %d candidate(s).", name, len(results))
-            return results
-        logger.info("%s returned nothing; trying next provider.", name)
-    return []
 
 
 # ─── Selection ───────────────────────────────────────────────────────────────
 
 
-def pick_best(candidates):
-    """First relevance-ranked candidate with both an OA PDF and a usable key.
+def find_and_fetch_seed(query, force=False, limit=SEARCH_LIMIT):
+    """Walk providers × their ranked candidates until a PDF *actually downloads*.
 
-    A top hit with no accessible PDF is useless to the pipeline, so it's
-    skipped rather than treated as a failure.
+    A candidate whose ``pdf_url`` 404s or serves an HTML paywall page (common
+    for publisher links surfaced by OpenAlex) is skipped, and the search moves
+    on to the next candidate and then the next provider — so a physics query
+    that OpenAlex only has paywalled still gets picked up from arXiv.
 
-    Returns (candidate, key) or (None, None).
+    Returns ``(candidate, key, dest_path)`` or ``(None, None, None)``.
     """
-    for cand in candidates:
-        if not cand.get("pdf_url"):
+    os.makedirs(RAW_DIR, exist_ok=True)
+    seen = set()
+
+    for name in SEARCH_PROVIDERS:
+        pname = name.strip()
+        provider = _PROVIDERS.get(pname)
+        if not provider:
+            logger.warning("Unknown search provider %r — skipping.", pname)
             continue
-        key = source_key(cand)
-        if not key:
+        try:
+            results = provider(query, limit)
+        except requests.RequestException as exc:
+            logger.warning("%s search failed: %s", pname, exc)
             continue
-        return cand, key
-    return None, None
+
+        n_links = 0
+        for cand in results:
+            if not cand.get("pdf_url"):
+                continue
+            key = source_key(cand)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            n_links += 1
+
+            dest = os.path.join(RAW_DIR, filename_for(key))
+            if os.path.exists(dest) and not force:
+                logger.info("%s: [%s] already on disk", pname, key)
+                return cand, key, dest
+
+            ok, reason = download_pdf(cand["pdf_url"], dest)
+            if ok:
+                logger.info("%s: [%s] %s", pname, key, os.path.basename(dest))
+                return cand, key, dest
+            logger.info("%s: [%s] not downloadable — %s", pname, key, reason)
+
+        logger.info(
+            "%s: %d result(s), %d with a PDF link, none downloadable.",
+            pname, len(results), n_links,
+        )
+    return None, None, None
 
 
 # ─── Manifest ────────────────────────────────────────────────────────────────
@@ -256,24 +310,23 @@ def discover(query, force=False):
         return prior["path"]
 
     logger.info("Searching for: %s", query)
-    candidates = search_candidates(query)
-    if not candidates:
-        logger.error("No results for query: %s", query)
+    cand, key, dest = find_and_fetch_seed(query, force=force)
+    if not dest:
+        logger.error("No downloadable open-access PDF for query: %s", query)
         return None
 
-    cand, key = pick_best(candidates)
-    if not cand:
-        logger.error(
-            "None of the %d results have an open-access PDF.", len(candidates)
-        )
-        return None
-
-    logger.info("Selected [%s]: %s", key, cand.get("title"))
-    return _download_and_record(
-        query, key, cand["pdf_url"], seeds, force,
-        title=cand.get("title"), doi=cand.get("doi"), arxiv_id=cand.get("arxiv_id"),
-        source="search",
-    )
+    seeds[query] = {
+        "key": key,
+        "title": cand.get("title"),
+        "url": cand["pdf_url"],
+        "path": dest,
+        "doi": cand.get("doi"),
+        "arxiv_id": cand.get("arxiv_id"),
+        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "source": "search",
+    }
+    _save_seeds(seeds)
+    return dest
 
 
 def main():

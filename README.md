@@ -22,7 +22,7 @@ Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
 
 | Stage | Script | What it does |
 |-------|--------|--------------|
-| **Agent 0 — Discoverer** | [agent0_discoverer.py](agent0_discoverer.py) | Takes a free-text research idea, searches a relevance-ranked scholarly index (OpenAlex, then Semantic Scholar), picks the top result that has an open-access PDF, and downloads it into `raw/` under a `source_key`-derived name. If nothing open-access turns up, `--seed-url` / `discover_from_url()` takes an arXiv or direct-PDF link instead. Records each query → chosen paper in `seed_papers.json`. From here the rest of the pipeline runs unchanged. |
+| **Agent 0 — Discoverer** | [agent0_discoverer.py](agent0_discoverer.py) | Takes a free-text research idea and searches relevance-ranked indexes in turn — arXiv, then OpenAlex, then Semantic Scholar — downloading the first result whose PDF actually fetches (paywalled publisher links are skipped, not fatal). Saves it into `raw/` under a `source_key`-derived name and records the query → paper in `seed_papers.json`. If nothing downloads, `--seed-url` / `discover_from_url()` takes an arXiv or direct-PDF link instead. From here the rest of the pipeline runs unchanged. |
 | **Agent 1 — Extractor** | [agent1_extractor.py](agent1_extractor.py) | Sends every PDF in `raw/` to a local GROBID server, parses the TEI output, and writes each paper's own metadata plus its full reference list (title, authors, year, DOI, raw string) to `extracted_citations.json`. Scores each consolidated DOI against the printed reference so grey-literature mismatches can be flagged. |
 | **Agent 2 — Fetcher** | [agent2_fetcher.py](agent2_fetcher.py) | Collapses the references to distinct sources, resolves a DOI per source (trusting Agent 1 when it was confident, otherwise asking Crossref), and tries to download an open-access PDF from Unpaywall → Europe PMC → arXiv. Writes `downloaded.json` / `failed_downloads.json` incrementally so a crashed run resumes. |
 | **Agent 3 — Ingestor** | [agent3_ingestor.py](agent3_ingestor.py) | For each downloaded PDF: Detectron2 page-layout detection, a VLM pass to describe figures and tables, semantic chunking of the text, embedding into ChromaDB, and a rebuild of the BM25 index. Tracks what has already been ingested so re-runs are cheap. |
@@ -210,7 +210,7 @@ Settings → Variables and secrets.
 - Ingestion: `CITATION_LAYOUT_DETECTION`, `CITATION_DETECTRON_WEIGHTS`,
   `CITATION_IMAGES_DIR`.
 - Agent 1: `GROBID_SERVER`, `GROBID_BATCH_CONCURRENCY`.
-- Agent 0: `CITATION_SEARCH_PROVIDERS` (default `openalex,semanticscholar`,
+- Agent 0: `CITATION_SEARCH_PROVIDERS` (default `arxiv,openalex,semanticscholar`,
   tried in order), `OPENALEX_MAILTO`, `S2_API_KEY` (optional Semantic Scholar
   key — the keyless pool is heavily rate-limited).
 - Misc: `UNPAYWALL_EMAIL`, `CITATION_LOG_DIR`, `CITATION_LOG_FILE=0`.

@@ -134,11 +134,13 @@ UNPAYWALL_EMAIL   = os.environ.get("UNPAYWALL_EMAIL", "abcdef_12345@gmail.com")
 # URL — so it never has to resolve a DOI or guess a download location the way
 # Agent 2 does for reference chains.
 #
-# Providers are tried in order until one returns results. OpenAlex has no rate
-# limit and is the reliable default; Semantic Scholar has better abstracts but
-# its keyless pool is heavily throttled (set S2_API_KEY to use a real key).
+# Providers are tried in order until one yields a result whose PDF actually
+# downloads. arXiv is first: for a physics tool its preprints are almost always
+# what you want and the PDF never 404s, whereas OpenAlex's top hits are often
+# paywalled publisher links. OpenAlex (better metadata, no rate limit) and
+# Semantic Scholar (keyless pool heavily throttled — set S2_API_KEY) back it up.
 SEARCH_PROVIDERS  = os.environ.get(
-    "CITATION_SEARCH_PROVIDERS", "openalex,semanticscholar"
+    "CITATION_SEARCH_PROVIDERS", "arxiv,openalex,semanticscholar"
 ).split(",")
 SEARCH_LIMIT      = 15    # Candidates to rank through looking for an OA PDF
 
