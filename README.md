@@ -3,8 +3,8 @@ title: Citation Agent
 emoji: 📚
 colorFrom: indigo
 colorTo: pink
-sdk: streamlit
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 ---
 
@@ -21,9 +21,10 @@ It runs two ways from the same code:
 - **Local** — models through [Ollama](https://ollama.com), layout analysis with
   Detectron2, your own GROBID server. Nothing leaves the machine except the
   bibliographic lookups.
-- **Hosted (Hugging Face Spaces)** — a Streamlit app ([app.py](app.py)), chat +
-  embeddings through a hosted API, the public GROBID Space, text-only ingestion.
-  See [Deploying to Hugging Face Spaces](#deploying-to-hugging-face-spaces).
+- **Hosted (Hugging Face Spaces)** — a Streamlit app ([app.py](app.py)) served
+  from a Docker Space ([Dockerfile](Dockerfile)), chat + embeddings through a
+  hosted API, the public GROBID Space, text-only ingestion. See
+  [Deploying to Hugging Face Spaces](#deploying-to-hugging-face-spaces).
 
 The bibliographic lookups (Agent 0: OpenAlex / Semantic Scholar; Agent 2:
 Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
@@ -152,24 +153,37 @@ streamlit run app.py
 
 ## Deploying to Hugging Face Spaces
 
-Create a **Streamlit** Space and push this repo to it (the YAML front matter at
-the top of this file configures it; `app.py` is the entry point). Detectron2,
-Ollama and a local GROBID are all avoided in this configuration.
+This deploys as a **Docker** Space — [Dockerfile](Dockerfile) runs the Streamlit
+app. Detectron2, Ollama and a local GROBID are all avoided in this config.
 
-Set these as **Space secrets / variables** (Settings → Variables and secrets):
+```bash
+# 1. commit
+git add -A && git commit -m "deploy"
+
+# 2. create a Docker Space at https://huggingface.co/new-space  (SDK: Docker),
+#    then add it as a remote and push:
+git remote add space https://huggingface.co/spaces/<username>/citation-agent
+git push space main        # username + a write token when prompted
+```
+
+The `sdk: docker` / `app_port: 7860` front matter at the top of this file is
+what configures the Space.
+
+Then set **Settings → Variables and secrets**:
 
 | Variable | Value | Why |
 |----------|-------|-----|
-| `LLM_BACKEND` | `openai` | Use a hosted chat endpoint instead of Ollama |
+| `HF_TOKEN` | *(secret)* | Auth for the router and HF-hosted embeddings |
 | `OPENAI_BASE_URL` | `https://router.huggingface.co/v1` | HF Inference router (or any OpenAI-compatible URL) |
-| `HF_TOKEN` | *(secret)* | Auth for the router and for HF-hosted embeddings |
 | `CITATION_LLM_MODEL` | e.g. `meta-llama/Llama-3.1-8B-Instruct` | A chat model the endpoint serves |
-| `CITATION_EMBED_BACKEND` | `huggingface` | Embeddings via `huggingface_hub` feature-extraction |
-| `CITATION_EMBED_MODEL` | e.g. `sentence-transformers/all-MiniLM-L6-v2` | An embedding model on HF Inference |
-| `CITATION_LAYOUT_DETECTION` | `0` | Text-only ingestion — no detectron2 |
-| `CITATION_DATA_DIR` | `/data` | Writable dir; add **persistent storage** to keep the corpus across restarts |
+| `CITATION_EMBED_MODEL` | e.g. `BAAI/bge-small-en-v1.5` | An embedding model with an HF Inference endpoint |
 | `UNPAYWALL_EMAIL` | your email | Required by Unpaywall / OpenAlex |
+| `CITATION_DATA_DIR` | `/data` | **only if** you attach persistent storage — otherwise leave unset |
 | `GROBID_SERVER` | `https://kermitt2-grobid.hf.space` | Default already; a private GROBID Space is faster and unshared |
+
+`LLM_BACKEND=openai`, `CITATION_EMBED_BACKEND=huggingface` and
+`CITATION_LAYOUT_DETECTION=0` are baked into the Dockerfile, so the table above
+is the minimum you must add.
 
 Without persistent storage the ChromaDB corpus is rebuilt each time the Space
 restarts. The public GROBID Space is shared and rate-limited — for anything

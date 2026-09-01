@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 .venv/
 
+# A HF Space cloned into a subfolder by mistake
+/tech_ireland/
+
 # Layout-detection model checkpoint (~800 MB) — layoutparser downloads its own
 model_final.pth
 

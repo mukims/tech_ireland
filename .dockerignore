@@ -1,0 +1,26 @@
+.git
+.gitignore
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local model + runtime data — never bake these into the image
+model_final.pth
+physics_vectordb/
+bm25_index.pkl
+pulled_pdfs/
+drafts/
+images/
+logs/
+data/
+raw/*.pdf
+raw/grobid_output/
+raw/processed/
+seed_papers.json
+downloaded.json
+failed_downloads.json
+extracted_citations.json
+
+# Layout extras are not installed in the Space image
+requirements-layout.txt
