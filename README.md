@@ -12,6 +12,8 @@ Retrieval is two-stage: match the idea against the paper **summaries** first,
 let the LLM drop the off-topic ones, then run the detailed chunk search only
 over what survives — so it stays fast as the corpus grows.
 
+Design rationale for every major choice is in [ARCHITECTURE.md](ARCHITECTURE.md).
+
 It runs two ways from the same code:
 
 - **Local** — models through [Ollama](https://ollama.com), layout analysis with
