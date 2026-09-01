@@ -1,0 +1,14 @@
+# Optional — enables config.LAYOUT_DETECTION: the detectron2 layout model that
+# crops figures/tables, plus a VLM description of each. Install ON TOP of
+# requirements.txt:
+#
+#   pip install -r requirements.txt -r requirements-layout.txt
+#   pip install 'git+https://github.com/facebookresearch/detectron2.git'
+#
+# detectron2 is not on PyPI and must be built from source against the torch
+# version below (swap the CPU builds for CUDA builds if you have a GPU).
+
+torch==2.13.0
+torchvision==0.28.0
+opencv-python==5.0.0.93
+layoutparser==0.3.4

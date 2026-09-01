@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Layout-detection model checkpoint (~800 MB) — layoutparser downloads its own
+model_final.pth
+
+# Runtime data (everything under CITATION_DATA_DIR / the repo root by default).
+# The corpus is built at run time; none of this belongs in git or on a Space.
+physics_vectordb/
+bm25_index.pkl
+pulled_pdfs/
+drafts/
+images/
+logs/
+sample_inputs/
+evaluation_results.csv
+seed_papers.json
+downloaded.json
+failed_downloads.json
+extracted_citations.json
+
+# PDFs dropped in for processing (keep the folder, not its contents)
+raw/*.pdf
+raw/grobid_output/
+raw/processed/

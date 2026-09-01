@@ -1,0 +1,31 @@
+# Python 3.12 — pip install -r requirements.txt
+#
+# This is the core install: the Streamlit UI, the LangGraph orchestrator, the
+# text-only ingestion path, and both LLM backends. Layout detection (detectron2
+# + VLM figure captions) is optional and lives in requirements-layout.txt.
+
+# ─── UI / orchestration ─────────────────────────────────────────────────────
+streamlit==1.53.1
+langgraph==0.4.7
+
+# ─── LLM / embedding backends ───────────────────────────────────────────────
+openai==2.52.0                 # LLM_BACKEND=openai (any OpenAI-compatible URL)
+huggingface-hub==1.26.0        # EMBED_BACKEND=huggingface
+ollama==0.6.1                  # LLM_BACKEND=ollama  (local only)
+langchain-ollama==1.0.1        # EMBED_BACKEND=ollama (local only)
+
+# ─── Agent 0 — Discoverer ───────────────────────────────────────────────────
+requests==2.34.2
+
+# ─── Agent 1 — Extractor (GROBID client) ────────────────────────────────────
+grobid-client-python==0.2.0
+beautifulsoup4==4.15.0
+lxml==4.9.4
+
+# ─── Agent 3 — Ingestor (text-only path) + retrieval ────────────────────────
+PyMuPDF==1.26.7
+numpy==2.2.6
+tqdm==4.70.0
+chromadb==1.4.1
+rank-bm25==0.2.2
+langchain-experimental==0.4.1  # SemanticChunker
