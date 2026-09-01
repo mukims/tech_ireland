@@ -25,6 +25,7 @@ COPY --chown=user . .
 # FUSE) and it persists. Secrets (HF_TOKEN) and model ids come in at deploy time.
 ENV CITATION_DATA_DIR=/home/user/data \
     CITATION_LAYOUT_DETECTION=0 \
+    CITATION_LOG_FILE=0 \
     LLM_BACKEND=openai \
     CITATION_EMBED_BACKEND=huggingface \
     PORT=7860

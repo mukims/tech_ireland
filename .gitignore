@@ -6,6 +6,9 @@ __pycache__/
 # A HF Space cloned into a subfolder by mistake
 /tech_ireland/
 
+# gcloud SDK if it ever gets installed in here (it shouldn't)
+/google-cloud-sdk/
+
 # Layout-detection model checkpoint (~800 MB) — layoutparser downloads its own
 model_final.pth
 
