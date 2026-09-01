@@ -107,11 +107,17 @@ def _render_suggestion(result):
                     st.divider()
 
 
-def _render_seed_and_downloads(query):
-    seed = _manifest(config.SEED_PAPERS_PATH).get(query) or {}
-    if seed:
+def _render_seed_and_downloads(query, final):
+    seeds = _manifest(config.SEED_PAPERS_PATH)
+    seed = seeds.get(query) or {}
+    # Query-key mismatch fallback: if there's exactly one seed on record, use it.
+    if not seed and len(seeds) == 1:
+        seed = next(iter(seeds.values()))
+
+    title = seed.get("title") or final.get("seed_label")
+    if title or seed:
         with st.container(border=True):
-            st.markdown(f"**🌱 Seed paper** — {seed.get('title') or seed.get('key')}")
+            st.markdown(f"**🌱 Seed paper** — {title or seed.get('key', '—')}")
             bits = []
             if seed.get("url"):
                 bits.append(f"[PDF]({seed['url']})")
@@ -119,22 +125,27 @@ def _render_seed_and_downloads(query):
                 bits.append(f"arXiv:{seed['arxiv_id']}")
             if seed.get("doi"):
                 bits.append(f"doi:{seed['doi']}")
-            bits.append(f"`{seed.get('key', '')}`")
-            st.caption(" · ".join(bits))
+            if seed.get("key"):
+                bits.append(f"`{seed['key']}`")
+            if bits:
+                st.caption(" · ".join(bits))
 
     downloaded = _manifest(config.DOWNLOADED_JSON_PATH)
     failed = _manifest(config.FAILED_DOWNLOADS_PATH)
     if downloaded or failed:
         with st.expander(
-            f"Reference PDFs — {len(downloaded)} fetched, {len(failed)} unavailable"
+            f"📄 Reference PDFs — {len(downloaded)} fetched, {len(failed)} unavailable",
+            expanded=bool(downloaded) and not final.get("answer"),
         ):
             for rec in downloaded.values():
-                title = rec.get("title") or rec.get("raw_reference") or rec.get("key")
-                st.markdown(f"- ✅ {title}")
+                t = rec.get("title") or rec.get("raw_reference") or rec.get("key")
+                st.markdown(f"- ✅ {t}")
             for rec in failed.values():
-                title = rec.get("title") or rec.get("raw_reference") or rec.get("key")
-                st.markdown(f"- ⚠️ {title}  \n  <sub>{rec.get('reason', '')}</sub>",
-                            unsafe_allow_html=True)
+                t = rec.get("title") or rec.get("raw_reference") or rec.get("key")
+                st.markdown(
+                    f"- ⚠️ {t}  \n  <sub>{rec.get('reason', '')}</sub>",
+                    unsafe_allow_html=True,
+                )
 
 
 def _render_shortlist(selected):
@@ -147,6 +158,9 @@ def _render_shortlist(selected):
 
 
 def _render_build(final, query):
+    # Show whatever the run produced — seed, downloads — even if it stopped early.
+    _render_seed_and_downloads(query, final)
+
     if final.get("stopped"):
         st.error(final["stopped"], icon="🛑")
         if "supply an arXiv" in final["stopped"]:
@@ -156,8 +170,6 @@ def _render_build(final, query):
                 icon="💡",
             )
         return
-
-    _render_seed_and_downloads(query)
 
     answer = final.get("answer")
     if answer:
