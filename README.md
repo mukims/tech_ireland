@@ -1,13 +1,3 @@
----
-title: Citation Agent
-emoji: 📚
-colorFrom: indigo
-colorTo: pink
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # Citation Agent Pipeline
 
 A multi-agent pipeline that builds a citable knowledge base from physics papers
@@ -21,10 +11,9 @@ It runs two ways from the same code:
 - **Local** — models through [Ollama](https://ollama.com), layout analysis with
   Detectron2, your own GROBID server. Nothing leaves the machine except the
   bibliographic lookups.
-- **Hosted (Hugging Face Spaces)** — a Streamlit app ([app.py](app.py)) served
-  from a Docker Space ([Dockerfile](Dockerfile)), chat + embeddings through a
-  hosted API, the public GROBID Space, text-only ingestion. See
-  [Deploying to Hugging Face Spaces](#deploying-to-hugging-face-spaces).
+- **Hosted** — a Streamlit app ([app.py](app.py)) in a container
+  ([Dockerfile](Dockerfile)); chat + embeddings through a hosted API, the public
+  GROBID Space, text-only ingestion. See [Deploying](#deploying).
 
 The bibliographic lookups (Agent 0: OpenAlex / Semantic Scholar; Agent 2:
 Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
@@ -92,7 +81,7 @@ pulled_pdfs/        PDFs downloaded by Agent 2
 physics_vectordb/   persistent ChromaDB store + ingestion manifest
 images/             figure/table crops written during ingestion (debug artefact, safe to delete)
 logs/               citation_agent.log
-app.py              Streamlit UI / Hugging Face Spaces entry point
+app.py              Streamlit UI (also the container entry point)
 model_final.pth     Detectron2 / PubLayNet checkpoint (optional; layout detection)
 ```
 
@@ -151,43 +140,62 @@ Or the Streamlit UI (same thing, with a browser front-end):
 streamlit run app.py
 ```
 
-## Deploying to Hugging Face Spaces
+## Deploying
 
-This deploys as a **Docker** Space — [Dockerfile](Dockerfile) runs the Streamlit
-app. Detectron2, Ollama and a local GROBID are all avoided in this config.
+The [Dockerfile](Dockerfile) runs the Streamlit app and honours `$PORT`, so it
+drops onto any container host. `LLM_BACKEND=openai`,
+`CITATION_EMBED_BACKEND=huggingface` and `CITATION_LAYOUT_DETECTION=0` are baked
+in; you supply the secrets and model ids at deploy time.
+
+**Deploy-time config** (all hosts):
+
+| Variable | Value |
+|----------|-------|
+| `HF_TOKEN` | a HuggingFace token (auth for the router + HF-hosted embeddings) — **use a secret** |
+| `OPENAI_BASE_URL` | `https://router.huggingface.co/v1` (or any OpenAI-compatible URL) |
+| `CITATION_LLM_MODEL` | a chat model the endpoint serves, e.g. `meta-llama/Llama-3.1-8B-Instruct` |
+| `CITATION_EMBED_MODEL` | an embedding model on HF Inference, e.g. `BAAI/bge-small-en-v1.5` |
+| `UNPAYWALL_EMAIL` | your email (required by Unpaywall / OpenAlex) |
+| `GROBID_SERVER` | optional; defaults to the public `kermitt2-grobid.hf.space` |
+
+### Google Cloud Run
 
 ```bash
-# 1. commit
-git add -A && git commit -m "deploy"
+# one-time
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com secretmanager.googleapis.com
 
-# 2. create a Docker Space at https://huggingface.co/new-space  (SDK: Docker),
-#    then add it as a remote and push:
-git remote add space https://huggingface.co/spaces/<username>/citation-agent
-git push space main        # username + a write token when prompted
+# store the HF token as a secret
+printf 'hf_xxxxxxxx' | gcloud secrets create hf-token --data-file=-
+
+# build from the Dockerfile and deploy
+gcloud run deploy citation-agent \
+  --source . \
+  --region europe-west1 \
+  --allow-unauthenticated \
+  --memory 2Gi --cpu 2 --timeout 3600 --session-affinity \
+  --set-secrets HF_TOKEN=hf-token:latest \
+  --set-env-vars OPENAI_BASE_URL=https://router.huggingface.co/v1,CITATION_LLM_MODEL=meta-llama/Llama-3.1-8B-Instruct,CITATION_EMBED_MODEL=BAAI/bge-small-en-v1.5,[email protected]
 ```
 
-The `sdk: docker` / `app_port: 7860` front matter at the top of this file is
-what configures the Space.
+`gcloud` prints the service URL when it finishes. Redeploy with the same
+command. `--session-affinity` keeps a browser pinned to one instance (Streamlit
+needs it); `--memory 2Gi` covers chromadb + onnxruntime.
 
-Then set **Settings → Variables and secrets**:
+The container filesystem (so `CITATION_DATA_DIR`) is in-memory and wiped when
+Cloud Run scales to zero — the corpus rebuilds on the next visit. To persist it,
+create a GCS bucket and add
+`--add-volume name=data,type=cloud-storage,bucket=YOUR_BUCKET`
+`--add-volume-mount volume=data,mount-path=/home/user/data`.
 
-| Variable | Value | Why |
-|----------|-------|-----|
-| `HF_TOKEN` | *(secret)* | Auth for the router and HF-hosted embeddings |
-| `OPENAI_BASE_URL` | `https://router.huggingface.co/v1` | HF Inference router (or any OpenAI-compatible URL) |
-| `CITATION_LLM_MODEL` | e.g. `meta-llama/Llama-3.1-8B-Instruct` | A chat model the endpoint serves |
-| `CITATION_EMBED_MODEL` | e.g. `BAAI/bge-small-en-v1.5` | An embedding model with an HF Inference endpoint |
-| `UNPAYWALL_EMAIL` | your email | Required by Unpaywall / OpenAlex |
-| `CITATION_DATA_DIR` | `/data` | **only if** you attach persistent storage — otherwise leave unset |
-| `GROBID_SERVER` | `https://kermitt2-grobid.hf.space` | Default already; a private GROBID Space is faster and unshared |
+### Hugging Face Spaces
 
-`LLM_BACKEND=openai`, `CITATION_EMBED_BACKEND=huggingface` and
-`CITATION_LAYOUT_DETECTION=0` are baked into the Dockerfile, so the table above
-is the minimum you must add.
-
-Without persistent storage the ChromaDB corpus is rebuilt each time the Space
-restarts. The public GROBID Space is shared and rate-limited — for anything
-beyond a demo, duplicate it into your own Space and point `GROBID_SERVER` at it.
+Works only on a **paid CPU** tier — the free CPU tier is gone and ZeroGPU
+(what new Spaces default to) is Gradio-only. If you have a CPU-upgrade Space,
+add the `sdk: docker` / `app_port: 7860` front matter back to this file, `git
+push` the repo to the Space remote, and set the same variables above under
+Settings → Variables and secrets.
 
 ## Configuration notes
 
