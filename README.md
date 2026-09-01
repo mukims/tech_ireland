@@ -22,7 +22,7 @@ Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
 
 | Stage | Script | What it does |
 |-------|--------|--------------|
-| **Agent 0 — Discoverer** | [agent0_discoverer.py](agent0_discoverer.py) | Takes a free-text research idea, searches a relevance-ranked scholarly index (OpenAlex, then Semantic Scholar), picks the top result that has an open-access PDF, and downloads it into `raw/` under a `source_key`-derived name. Records each query → chosen paper in `seed_papers.json`. From here the rest of the pipeline runs unchanged. |
+| **Agent 0 — Discoverer** | [agent0_discoverer.py](agent0_discoverer.py) | Takes a free-text research idea, searches a relevance-ranked scholarly index (OpenAlex, then Semantic Scholar), picks the top result that has an open-access PDF, and downloads it into `raw/` under a `source_key`-derived name. If nothing open-access turns up, `--seed-url` / `discover_from_url()` takes an arXiv or direct-PDF link instead. Records each query → chosen paper in `seed_papers.json`. From here the rest of the pipeline runs unchanged. |
 | **Agent 1 — Extractor** | [agent1_extractor.py](agent1_extractor.py) | Sends every PDF in `raw/` to a local GROBID server, parses the TEI output, and writes each paper's own metadata plus its full reference list (title, authors, year, DOI, raw string) to `extracted_citations.json`. Scores each consolidated DOI against the printed reference so grey-literature mismatches can be flagged. |
 | **Agent 2 — Fetcher** | [agent2_fetcher.py](agent2_fetcher.py) | Collapses the references to distinct sources, resolves a DOI per source (trusting Agent 1 when it was confident, otherwise asking Crossref), and tries to download an open-access PDF from Unpaywall → Europe PMC → arXiv. Writes `downloaded.json` / `failed_downloads.json` incrementally so a crashed run resumes. |
 | **Agent 3 — Ingestor** | [agent3_ingestor.py](agent3_ingestor.py) | For each downloaded PDF: Detectron2 page-layout detection, a VLM pass to describe figures and tables, semantic chunking of the text, embedding into ChromaDB, and a rebuild of the BM25 index. Tracks what has already been ingested so re-runs are cheap. |
@@ -117,7 +117,9 @@ Or run the stages by hand:
 ```bash
 # 0. Seed from a research idea — finds and downloads a relevant paper into raw/
 python agent0_discoverer.py --query "topological protection in disordered quantum wires"
-#    (or skip this and drop your own PDF(s) into raw/ by hand)
+#    no open-access hit? give it a link:
+python agent0_discoverer.py --query "..." --url https://arxiv.org/abs/2401.12345
+#    (or skip Agent 0 and drop your own PDF(s) into raw/ by hand)
 
 # 1. Mine the reference list of everything in raw/
 python agent1_extractor.py            # -> extracted_citations.json

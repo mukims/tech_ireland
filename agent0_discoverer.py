@@ -18,6 +18,7 @@ seed paper itself is indexed, not only the papers it cites.
 import argparse
 import json
 import os
+import re
 import time
 
 import requests
@@ -181,6 +182,65 @@ def get_seed(query):
     return _load_seeds().get(query)
 
 
+# ─── Direct-URL fallback ─────────────────────────────────────────────────────
+
+_ARXIV_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}(?:v[0-9]+)?|[a-z-]+/[0-9]{7})")
+
+
+def _from_arxiv_url(url):
+    """(pdf_url, arxiv_id) for an arxiv.org link, else (url, None)."""
+    m = _ARXIV_RE.search(url or "")
+    if not m:
+        return url, None
+    arxiv_id = m.group(1)
+    return f"https://arxiv.org/pdf/{arxiv_id}", arxiv_id
+
+
+def _download_and_record(query, key, pdf_url, seeds, force, **extra):
+    """Download *pdf_url* into RAW_DIR, write the seed manifest, return the path."""
+    os.makedirs(RAW_DIR, exist_ok=True)
+    dest = os.path.join(RAW_DIR, filename_for(key))
+
+    if os.path.exists(dest) and not force:
+        logger.info("PDF already on disk: %s", os.path.basename(dest))
+    else:
+        ok, reason = download_pdf(pdf_url, dest)
+        if not ok:
+            logger.error("Could not download %s: %s", pdf_url, reason)
+            return None
+        logger.info("Saved -> %s", os.path.basename(dest))
+
+    seeds[query] = {
+        "key": key,
+        "url": pdf_url,
+        "path": dest,
+        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        **extra,
+    }
+    _save_seeds(seeds)
+    return dest
+
+
+def discover_from_url(query, url, force=False):
+    """Seed from a PDF link the user supplied — the fallback when the search
+    turns up nothing open-access. arXiv abstract links are rewritten to the PDF.
+
+    Returns the local PDF path, or None if the download failed.
+    """
+    seeds = _load_seeds()
+    prior = seeds.get(query)
+    if prior and not force and os.path.exists(prior.get("path", "")):
+        logger.info("Already seeded for this query: %s", prior["path"])
+        return prior["path"]
+
+    pdf_url, arxiv_id = _from_arxiv_url(url.strip())
+    key = f"arxiv:{arxiv_id}" if arxiv_id else (source_key({"url": pdf_url}) or "url:manual")
+    logger.info("Seeding from supplied link [%s]: %s", key, pdf_url)
+    return _download_and_record(
+        query, key, pdf_url, seeds, force, arxiv_id=arxiv_id, source="manual-url"
+    )
+
+
 # ─── Entry point ─────────────────────────────────────────────────────────────
 
 
@@ -209,35 +269,20 @@ def discover(query, force=False):
         return None
 
     logger.info("Selected [%s]: %s", key, cand.get("title"))
-
-    os.makedirs(RAW_DIR, exist_ok=True)
-    dest = os.path.join(RAW_DIR, filename_for(key))
-
-    if os.path.exists(dest) and not force:
-        logger.info("PDF already on disk: %s", os.path.basename(dest))
-    else:
-        ok, reason = download_pdf(cand["pdf_url"], dest)
-        if not ok:
-            logger.error("Could not download %s: %s", cand["pdf_url"], reason)
-            return None
-        logger.info("Saved -> %s", os.path.basename(dest))
-
-    seeds[query] = {
-        "key": key,
-        "title": cand.get("title"),
-        "url": cand["pdf_url"],
-        "path": dest,
-        "doi": cand.get("doi"),
-        "arxiv_id": cand.get("arxiv_id"),
-        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-    }
-    _save_seeds(seeds)
-    return dest
+    return _download_and_record(
+        query, key, cand["pdf_url"], seeds, force,
+        title=cand.get("title"), doi=cand.get("doi"), arxiv_id=cand.get("arxiv_id"),
+        source="search",
+    )
 
 
 def main():
     parser = argparse.ArgumentParser(description="Agent 0 — Seed paper discoverer")
     parser.add_argument("--query", required=True, help="Research idea to seed from.")
+    parser.add_argument(
+        "--url",
+        help="Seed directly from this PDF / arXiv link instead of searching.",
+    )
     parser.add_argument(
         "--force",
         action="store_true",
@@ -245,7 +290,10 @@ def main():
     )
     args = parser.parse_args()
 
-    path = discover(args.query, force=args.force)
+    if args.url:
+        path = discover_from_url(args.query, args.url, force=args.force)
+    else:
+        path = discover(args.query, force=args.force)
     if not path:
         raise SystemExit(1)
     print(path)

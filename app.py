@@ -58,6 +58,12 @@ with tab_build:
         "Research idea",
         placeholder="topological protection in disordered quantum wires",
     )
+    seed_url = st.text_input(
+        "Seed paper URL (optional)",
+        placeholder="https://arxiv.org/abs/2401.12345  —  leave blank to search automatically",
+        help="Used when the automatic search finds no open-access PDF. "
+             "Accepts an arXiv link or a direct .pdf URL.",
+    )
     col1, col2 = st.columns(2)
     ask = col1.checkbox("Answer the query at the end (Agent 4)", value=True)
     force = col2.checkbox("Force re-run every stage", value=False)
@@ -67,10 +73,17 @@ with tab_build:
 
         graph = orchestrate.build_graph()
         cfg = {"configurable": {"thread_id": query.strip()[:64] or "default"}}
-        inputs = {"query": query.strip(), "workers": 1, "force": force, "ask": ask}
+        inputs = {
+            "query": query.strip(),
+            "workers": 1,
+            "force": force,
+            "ask": ask,
+            "seed_url": seed_url.strip() or None,
+        }
 
         labels = {
-            "discover": "Agent 0 — finding a seed paper",
+            "discover": "Agent 0 — seeding from your link" if seed_url.strip()
+                        else "Agent 0 — finding a seed paper",
             "ingest_seed": "Indexing the seed paper",
             "extract": "Agent 1 — extracting references (GROBID)",
             "fetch": "Agent 2 — fetching referenced papers",
@@ -87,6 +100,11 @@ with tab_build:
                 if final.get("stopped"):
                     status.update(label="Stopped early", state="error")
                     st.error(final["stopped"])
+                    if "supply an arXiv" in final["stopped"]:
+                        st.info(
+                            "Paste a link in **Seed paper URL** above, then "
+                            "click **Build corpus** again."
+                        )
                 else:
                     status.update(label="Pipeline complete", state="complete")
             except Exception as e:

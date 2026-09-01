@@ -63,6 +63,9 @@ class _Inputs(TypedDict):
 
 
 class PipelineState(_Inputs, total=False):
+    # Optional: seed straight from this PDF / arXiv link instead of searching
+    # (the fallback when the search finds nothing open-access).
+    seed_url: Optional[str]
     # Filled in as the graph runs.
     seed_path: Optional[str]
     seed_label: Optional[str]
@@ -81,12 +84,25 @@ def _banner(title: str) -> None:
 
 
 def discover(state: PipelineState) -> dict:
-    _banner("discover — finding a seed paper")
-    path = agent0_discoverer.discover(state["query"], force=state.get("force", False))
-    if not path:
-        return {"seed_path": None, "stopped": "no seed paper found for the query"}
+    query, force = state["query"], state.get("force", False)
+    seed_url = (state.get("seed_url") or "").strip()
 
-    seed = agent0_discoverer.get_seed(state["query"]) or {}
+    if seed_url:
+        _banner("discover — seeding from the supplied link")
+        path = agent0_discoverer.discover_from_url(query, seed_url, force=force)
+        fail = f"could not download a PDF from {seed_url}"
+    else:
+        _banner("discover — finding a seed paper")
+        path = agent0_discoverer.discover(query, force=force)
+        fail = (
+            "no open-access PDF found for that query — supply an arXiv or "
+            "open-access PDF link to seed from directly"
+        )
+
+    if not path:
+        return {"seed_path": None, "stopped": fail}
+
+    seed = agent0_discoverer.get_seed(query) or {}
     label = seed.get("title") or seed.get("key") or os.path.basename(path)
     return {"seed_path": path, "seed_label": label}
 
@@ -175,14 +191,26 @@ def build_graph():
 # ─── Entry point ─────────────────────────────────────────────────────────────
 
 
-def run(query: str, workers: int = 1, force: bool = False, ask: bool = False) -> int:
+def run(
+    query: str,
+    workers: int = 1,
+    force: bool = False,
+    ask: bool = False,
+    seed_url: str | None = None,
+) -> int:
     app = build_graph()
     thread_id = hashlib.sha1(query.encode()).hexdigest()[:12]
     config = {"configurable": {"thread_id": thread_id}}
 
     final: PipelineState = {}
     for update in app.stream(
-        {"query": query, "workers": workers, "force": force, "ask": ask},
+        {
+            "query": query,
+            "workers": workers,
+            "force": force,
+            "ask": ask,
+            "seed_url": seed_url,
+        },
         config=config,
         stream_mode="values",
     ):
@@ -222,9 +250,16 @@ def main():
         "--ask", action="store_true",
         help="After building the corpus, answer the original query with Agent 4.",
     )
+    parser.add_argument(
+        "--seed-url",
+        help="Seed from this PDF / arXiv link instead of searching for a paper.",
+    )
     args = parser.parse_args()
 
-    raise SystemExit(run(args.query, workers=args.workers, force=args.force, ask=args.ask))
+    raise SystemExit(run(
+        args.query, workers=args.workers, force=args.force, ask=args.ask,
+        seed_url=args.seed_url,
+    ))
 
 
 if __name__ == "__main__":
