@@ -14,16 +14,10 @@ over what survives — so it stays fast as the corpus grows.
 
 Design rationale for every major choice is in [ARCHITECTURE.md](ARCHITECTURE.md).
 
-It runs two ways from the same code:
-
-- **Local** — models through [Ollama](https://ollama.com), layout analysis with
-  Detectron2, your own GROBID server. Nothing leaves the machine except the
-  bibliographic lookups.
-- **Hosted** — a Streamlit app ([app.py](app.py)) in a container
-  ([Dockerfile](Dockerfile)); chat + embeddings through a hosted API, the public
-  GROBID Space, text-only ingestion. See [Deploying](#deploying).
-
-The bibliographic lookups (Agent 0: OpenAlex / Semantic Scholar; Agent 2:
+Models run locally through [Ollama](https://ollama.com) by default, or against
+any OpenAI-compatible API (`LLM_BACKEND=openai`). A Streamlit UI
+([app.py](app.py)) and a [Dockerfile](Dockerfile) are included. The
+bibliographic lookups (Agent 0: arXiv / OpenAlex / Semantic Scholar; Agent 2:
 Crossref, Unpaywall, Europe PMC, arXiv) always go out to those services.
 
 ## Pipeline
@@ -153,63 +147,6 @@ Or the Streamlit UI (same thing, with a browser front-end):
 ```bash
 streamlit run app.py
 ```
-
-## Deploying
-
-The [Dockerfile](Dockerfile) runs the Streamlit app and honours `$PORT`, so it
-drops onto any container host. `LLM_BACKEND=openai`,
-`CITATION_EMBED_BACKEND=huggingface` and `CITATION_LAYOUT_DETECTION=0` are baked
-in; you supply the secrets and model ids at deploy time.
-
-**Deploy-time config** (all hosts):
-
-| Variable | Value |
-|----------|-------|
-| `HF_TOKEN` | a HuggingFace token (auth for the router + HF-hosted embeddings) — **use a secret** |
-| `OPENAI_BASE_URL` | `https://router.huggingface.co/v1` (or any OpenAI-compatible URL) |
-| `CITATION_LLM_MODEL` | a chat model the endpoint serves, e.g. `meta-llama/Llama-3.1-8B-Instruct` |
-| `CITATION_EMBED_MODEL` | an embedding model on HF Inference, e.g. `BAAI/bge-small-en-v1.5` |
-| `UNPAYWALL_EMAIL` | your email (required by Unpaywall / OpenAlex) |
-| `GROBID_SERVER` | optional; defaults to the public `kermitt2-grobid.hf.space` |
-
-### Google Cloud Run
-
-```bash
-# one-time
-gcloud auth login
-gcloud config set project YOUR_PROJECT_ID
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com secretmanager.googleapis.com
-
-# store the HF token as a secret
-printf 'hf_xxxxxxxx' | gcloud secrets create hf-token --data-file=-
-
-# build from the Dockerfile and deploy
-gcloud run deploy citation-agent \
-  --source . \
-  --region europe-west1 \
-  --allow-unauthenticated \
-  --memory 2Gi --cpu 2 --timeout 3600 --session-affinity \
-  --set-secrets HF_TOKEN=hf-token:latest \
-  --set-env-vars OPENAI_BASE_URL=https://router.huggingface.co/v1,CITATION_LLM_MODEL=meta-llama/Llama-3.1-8B-Instruct,CITATION_EMBED_MODEL=BAAI/bge-small-en-v1.5,[email protected]
-```
-
-`gcloud` prints the service URL when it finishes. Redeploy with the same
-command. `--session-affinity` keeps a browser pinned to one instance (Streamlit
-needs it); `--memory 2Gi` covers chromadb + onnxruntime.
-
-The container filesystem (so `CITATION_DATA_DIR`) is in-memory and wiped when
-Cloud Run scales to zero — the corpus rebuilds on the next visit. To persist it,
-create a GCS bucket and add
-`--add-volume name=data,type=cloud-storage,bucket=YOUR_BUCKET`
-`--add-volume-mount volume=data,mount-path=/home/user/data`.
-
-### Hugging Face Spaces
-
-Works only on a **paid CPU** tier — the free CPU tier is gone and ZeroGPU
-(what new Spaces default to) is Gradio-only. If you have a CPU-upgrade Space,
-add the `sdk: docker` / `app_port: 7860` front matter back to this file, `git
-push` the repo to the Space remote, and set the same variables above under
-Settings → Variables and secrets.
 
 ## Configuration notes
 
