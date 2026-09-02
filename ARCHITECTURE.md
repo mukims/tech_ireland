@@ -141,6 +141,18 @@ direct-PDF link. arXiv `/abs/` links are rewritten to `/pdf/`; the key becomes
 The user often knows the exact paper. This keeps the pipeline usable instead of
 dead-ending.
 
+### 3.4 No-corpus fallback answer
+
+If discovery still finds nothing and the caller wanted an answer (`--ask` / the
+UI), a `fallback` node answers the query from the model's own knowledge,
+prefaced with a note that it is ungrounded. The "supply a PDF link" prompt is
+kept alongside it.
+
+**Why.** A blank screen is a bad response to "I couldn't find a paper". The
+model usually knows *something* about the topic, and saying so — clearly flagged
+as not retrieved from sources — is more useful than stopping. The run still
+exits non-zero and still asks for a link, so the degradation is visible.
+
 ### 3.4 `source_key` — deterministic document identity
 
 Every reference and document folds to a prefixed key: `doi:…`, `arxiv:…`,

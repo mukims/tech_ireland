@@ -9,8 +9,8 @@ The graph:
     START
       │
       ▼
-    discover ──(no seed found)──────────────► END
-      │
+    discover ──(no seed, --ask)──► fallback ──► END   answer from the model alone
+      │       ──(no seed, no --ask)──────────► END
       ▼
     ingest_seed        index the seed paper itself, not just what it cites
       │
@@ -21,9 +21,9 @@ The graph:
     fetch              open-access PDFs for the seed's references   (Agent 2)
       │
       ▼
-    ingest_refs        layout-detect, chunk, embed everything fetched (Agent 3)
+    ingest_refs        chunk, embed, summarise everything fetched   (Agent 3)
       │
-      ├──(--ask)──► respond ──► END
+      ├──(--ask)──► respond ──► END                 two-stage retrieval + synthesis
       └─────────────────────────► END
 
 Each node wraps the same agent entry point you'd otherwise call by hand, and
@@ -154,11 +154,31 @@ def respond(state: PipelineState) -> dict:
     return {"answer": result}
 
 
+def fallback(state: PipelineState) -> dict:
+    """No seed paper — answer the query from the model's own knowledge."""
+    _banner("fallback — no corpus, answering from general knowledge")
+    from prompts import NO_CORPUS_FALLBACK
+    from shared.llm import chat
+
+    try:
+        text = chat(
+            [{"role": "user", "content": NO_CORPUS_FALLBACK.format(query=state["query"])}]
+        ).content
+    except Exception as e:  # noqa: BLE001
+        logger.error("Fallback answer failed: %s", e)
+        return {}
+    return {"answer": {"suggestion": text, "citations": [], "passages": [], "ungrounded": True}}
+
+
 # ─── Edges ───────────────────────────────────────────────────────────────────
 
 
 def _after_discover(state: PipelineState) -> str:
-    return "ingest_seed" if state.get("seed_path") else END
+    if state.get("seed_path"):
+        return "ingest_seed"
+    # No paper to build on. Answer from general knowledge if the caller wanted
+    # an answer; otherwise just stop.
+    return "fallback" if state.get("ask") else END
 
 
 def _after_extract(state: PipelineState) -> str:
@@ -177,14 +197,16 @@ def build_graph():
     g.add_node("fetch", fetch)
     g.add_node("ingest_refs", ingest_refs)
     g.add_node("respond", respond)
+    g.add_node("fallback", fallback)
 
     g.add_edge(START, "discover")
-    g.add_conditional_edges("discover", _after_discover, ["ingest_seed", END])
+    g.add_conditional_edges("discover", _after_discover, ["ingest_seed", "fallback", END])
     g.add_edge("ingest_seed", "extract")
     g.add_conditional_edges("extract", _after_extract, ["fetch", END])
     g.add_edge("fetch", "ingest_refs")
     g.add_conditional_edges("ingest_refs", _after_ingest_refs, ["respond", END])
     g.add_edge("respond", END)
+    g.add_edge("fallback", END)
 
     return g.compile(checkpointer=MemorySaver())
 
@@ -217,23 +239,26 @@ def run(
     ):
         final = update
 
-    if final.get("stopped"):
-        logger.error("Pipeline stopped: %s", final["stopped"])
-        return 1
+    stopped = final.get("stopped")
+    if stopped:
+        logger.warning("Pipeline stopped: %s", stopped)
 
     result = final.get("answer")
     if result:
-        print("\n--- Grounding references ---")
-        for cit in result["citations"]:
-            print(f" > {cit}")
-        print("\n=== SUGGESTION ===")
+        if result.get("ungrounded"):
+            print("\n=== ANSWER (not grounded in retrieved papers) ===")
+        else:
+            print("\n--- Grounding references ---")
+            for cit in result["citations"]:
+                print(f" > {cit}")
+            print("\n=== SUGGESTION ===")
         print(result["suggestion"])
         print("==================\n")
-    elif ask:
+    elif ask and not stopped:
         logger.info("Nothing in the corpus matched the query yet.")
 
     logger.info("Pipeline complete for: %s", query)
-    return 0
+    return 1 if stopped else 0
 
 
 def main():

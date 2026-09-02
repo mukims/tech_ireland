@@ -79,6 +79,7 @@ STEPS = {
     "fetch":       ("🌐", "Fetching referenced papers"),
     "ingest_refs": ("🧩", "Ingesting reference PDFs"),
     "respond":     ("✍️", "Answering your query"),
+    "fallback":    ("💭", "No paper found — answering from general knowledge"),
 }
 
 
@@ -162,13 +163,17 @@ def _render_build(final, query):
     _render_seed_and_downloads(query, final)
 
     if final.get("stopped"):
-        st.error(final["stopped"], icon="🛑")
-        if "supply an arXiv" in final["stopped"]:
+        st.warning(final["stopped"], icon="⚠️")
+        if "supply an arXiv" in final["stopped"] or "could not download" in final["stopped"]:
             st.info(
                 "Paste an arXiv or PDF link into **Seed paper URL** above and "
-                "build again.",
+                "build again to ground the answer in a real corpus.",
                 icon="💡",
             )
+        if final.get("answer"):
+            with st.container(border=True):
+                st.markdown("###### Answer (not grounded in retrieved papers)")
+                st.markdown(final["answer"]["suggestion"])
         return
 
     answer = final.get("answer")

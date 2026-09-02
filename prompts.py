@@ -102,6 +102,16 @@ DOC_RELEVANCE_GATE = (
 )
 
 
+# ─── No-corpus fallback (Agent 0 found nothing to build on) ────────────────
+NO_CORPUS_FALLBACK = (
+    "A researcher is exploring this idea:\n\"{query}\"\n\n"
+    "No paper could be retrieved to ground an answer. From your own knowledge, "
+    "give a brief overview of what is already known and the main lines of "
+    "related work on this topic. Be explicit at the top that this is NOT "
+    "grounded in retrieved sources and may be incomplete or out of date."
+)
+
+
 # ─── Related-work synthesis (Agent 7 user turn) ───────────────────────────
 RELATED_WORK_USER = (
     "The researcher is exploring:\n\"{query}\"\n\n"

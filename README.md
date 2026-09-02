@@ -41,7 +41,8 @@ layer and Agent 4.
 as a **LangGraph** state machine:
 
 ```
-discover ─(no seed)─► END
+discover ─(no seed, --ask)─► fallback ─► END      answer from the model alone
+   │      ─(no seed)──────────────────► END
    ▼
 ingest_seed ─► extract ─(GROBID down)─► END
                  ▼
@@ -50,7 +51,8 @@ ingest_seed ─► extract ─(GROBID down)─► END
 ```
 
 Each node wraps the same agent entry point you'd otherwise call by hand; the
-conditional edges handle "no seed paper found" and "GROBID produced nothing".
+conditional edges handle "no seed paper found" (answer from general knowledge,
+still asking for a PDF link) and "GROBID produced nothing".
 Every agent keeps its own on-disk state, so a run that dies partway is resumed
 by running it again — finished stages no-op.
 
