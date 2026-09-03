@@ -1,6 +1,6 @@
 # Architecture & Design Decisions
 
-Why the Citation Agent is built the way it is. Each section is a decision:
+Why the Research Assistant is built the way it is. Each section is a decision:
 what was chosen, the reasoning, what was rejected, and the trade-off accepted.
 
 ---

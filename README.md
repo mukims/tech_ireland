@@ -1,4 +1,4 @@
-# Citation Agent Pipeline
+# Research Assistant Pipeline
 
 A multi-agent pipeline that builds a citable knowledge base from physics papers.
 From a one-line research idea it finds a seed paper, walks its reference list,
@@ -88,7 +88,7 @@ seed_papers.json    Agent 0's manifest: research query → chosen seed paper
 pulled_pdfs/        PDFs downloaded by Agent 2
 physics_vectordb/   persistent ChromaDB store + ingestion manifest
 images/             figure/table crops written during ingestion (debug artefact, safe to delete)
-logs/               citation_agent.log
+logs/               research_assistant.log
 app.py              Streamlit UI (also the container entry point)
 model_final.pth     Detectron2 / PubLayNet checkpoint (optional; layout detection)
 ```

@@ -1,5 +1,5 @@
 """
-Streamlit front-end for the Citation Agent pipeline (also the container entry
+Streamlit front-end for the Research Assistant pipeline (also the container entry
 point).
 
 Tab 1 runs the LangGraph orchestrator from a research idea. Tab 2 is the
@@ -13,7 +13,7 @@ import streamlit as st
 
 import config
 
-st.set_page_config(page_title="Citation Agent", page_icon="📚", layout="centered")
+st.set_page_config(page_title="Research assistant", page_icon="📚", layout="centered")
 os.makedirs(config.DATA_DIR, exist_ok=True)
 
 
@@ -229,7 +229,7 @@ with st.sidebar:
 
 # ─── Main ───────────────────────────────────────────────────────────────────
 
-st.title("📚 Citation Agent")
+st.title("📚 Research Assistant")
 st.caption(
     "Give it a research idea → it builds a corpus from the literature and tells "
     "you what's already been done. Or hand it a sentence and it finds the "

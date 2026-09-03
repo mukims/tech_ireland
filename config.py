@@ -1,5 +1,5 @@
 """
-Central configuration for the Citation Agent pipeline.
+Central configuration for the Research Assistant pipeline.
 
 All hardcoded model names, paths, and tunable constants live here so that
 changing a model or path only requires editing one file.

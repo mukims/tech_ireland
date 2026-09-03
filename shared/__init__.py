@@ -1,3 +1,3 @@
 """
-Shared utilities for the Citation Agent pipeline.
+Shared utilities for the Research Assistant pipeline.
 """
