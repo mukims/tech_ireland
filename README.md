@@ -12,7 +12,9 @@ Retrieval is two-stage: match the idea against the paper **summaries** first,
 let the LLM drop the off-topic ones, then run the detailed chunk search only
 over what survives — so it stays fast as the corpus grows.
 
-Design rationale for every major choice is in [ARCHITECTURE.md](ARCHITECTURE.md).
+How to drive the app is in [HOW_TO_USE.md](HOW_TO_USE.md) (also shown in the
+app's *How to use* tab). Design rationale for every major choice is in
+[ARCHITECTURE.md](ARCHITECTURE.md).
 
 Models run locally through [Ollama](https://ollama.com) by default, or against
 any OpenAI-compatible API (`LLM_BACKEND=openai`). A Streamlit UI

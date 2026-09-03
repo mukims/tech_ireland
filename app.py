@@ -3,11 +3,13 @@ Streamlit front-end for the Research Assistant pipeline (also the container entr
 point).
 
 Tab 1 runs the LangGraph orchestrator from a research idea. Tab 2 is the
-Agent 4 citation assistant over whatever corpus has been built so far.
+Agent 4 citation assistant over whatever corpus has been built so far. Tab 3
+renders HOW_TO_USE.md.
 """
 
 import json
 import os
+import re
 
 import streamlit as st
 
@@ -236,7 +238,9 @@ st.caption(
     "citation."
 )
 
-tab_build, tab_cite = st.tabs(["Research a topic", "Cite a draft"])
+tab_build, tab_cite, tab_help = st.tabs(
+    ["Research a topic", "Cite a draft", "How to use"]
+)
 
 
 # ─── Tab 1: build a corpus ─────────────────────────────────────────────────
@@ -352,3 +356,25 @@ with tab_cite:
         st.info("Nothing in the corpus matched that text.", icon="🤷")
     elif isinstance(cr, dict):
         _render_suggestion(cr)
+
+
+# ─── Tab 3: how to use ─────────────────────────────────────────────────────
+
+with tab_help:
+    # Rendered from the repo's own HOW_TO_USE.md so the doc and the in-app help
+    # cannot drift apart.
+    guide = os.path.join(config.PROJECT_ROOT, "HOW_TO_USE.md")
+    try:
+        with open(guide, encoding="utf-8") as f:
+            text = f.read()
+        # Relative links are correct on GitHub but dead inside the app, which
+        # serves no such routes — show them as filenames instead. http(s) links
+        # are left alone.
+        text = re.sub(r"\[([^\]]+)\]\((?!https?:)[^)]+\)", r"`\1`", text)
+        st.markdown(text)
+    except OSError:
+        st.warning(
+            "HOW_TO_USE.md is missing from this build — read it in the repo "
+            "instead.",
+            icon="📄",
+        )
